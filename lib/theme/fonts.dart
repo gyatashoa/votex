@@ -30,3 +30,6 @@ final TextStyle logoTextStyle1 =
 
 final TextStyle logoTextStyle2 =
     GoogleFonts.courgette(fontSize: 25, color: lightScaffoldColor);
+
+final TextStyle textFieldInputFont =
+    GoogleFonts.montserrat(fontSize: 16, color: mainLightTextColor);

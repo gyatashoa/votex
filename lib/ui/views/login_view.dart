@@ -66,6 +66,9 @@ class _MobileView extends StatelessWidget {
                         child: AuthHeader(model.headLine),
                       ),
                       TextFormField(
+                        textInputAction: TextInputAction.next,
+                        style: textFieldInputFont,
+                        keyboardType: TextInputType.emailAddress,
                         onChanged: (text) => model.onFieldChange(
                             data: text, type: FieldType.EMAIL),
                         controller: model.emailController,
@@ -78,6 +81,9 @@ class _MobileView extends StatelessWidget {
                         height: devSize.height * 0.02,
                       ),
                       TextFormField(
+                        textInputAction: TextInputAction.done,
+                        style: textFieldInputFont,
+                        keyboardType: TextInputType.visiblePassword,
                         onChanged: (text) => model.onFieldChange(
                             data: text, type: FieldType.PASSWORD1),
                         controller: model.password1Controller,

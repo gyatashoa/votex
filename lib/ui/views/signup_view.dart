@@ -65,6 +65,9 @@ class _MobileView extends StatelessWidget {
                         child: AuthHeader(model.headLine),
                       ),
                       TextFormField(
+                        textInputAction: TextInputAction.next,
+                        style: textFieldInputFont,
+                        keyboardType: TextInputType.emailAddress,
                         onChanged: (text) => model.onFieldChange(
                             data: text, type: FieldType.EMAIL),
                         validator: (text) =>
@@ -77,6 +80,9 @@ class _MobileView extends StatelessWidget {
                         height: devSize.height * 0.02,
                       ),
                       TextFormField(
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.visiblePassword,
+                        style: textFieldInputFont,
                         onChanged: (text) => model.onFieldChange(
                             data: text, type: FieldType.PASSWORD1),
                         validator: (text) => model.validator(
@@ -90,6 +96,10 @@ class _MobileView extends StatelessWidget {
                         height: devSize.height * 0.02,
                       ),
                       TextFormField(
+                        textInputAction: TextInputAction.done,
+                        onFieldSubmitted: (text) => model.signUp(),
+                        keyboardType: TextInputType.visiblePassword,
+                        style: textFieldInputFont,
                         onChanged: (text) => model.onFieldChange(
                             data: text, type: FieldType.PASSWORD2),
                         validator: (text) => model.validator(
