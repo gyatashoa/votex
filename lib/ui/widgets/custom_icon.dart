@@ -28,3 +28,20 @@ class CustomIcon1 extends StatelessWidget {
     );
   }
 }
+
+class CustomIcon2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration:
+          BoxDecoration(shape: BoxShape.circle, color: primaryGreenColor),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(
+          titleIntial,
+          style: logoTextStyle2,
+        ),
+      ),
+    );
+  }
+}

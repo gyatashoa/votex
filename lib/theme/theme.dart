@@ -11,10 +11,14 @@ final ThemeData lightTheme = ThemeData(
       subtitle1: faintedTextPrimary,
       subtitle2: faintedTextSecondary,
     ),
+    inputDecorationTheme: InputDecorationTheme(hintStyle: faintedTextPrimary),
     accentIconTheme: IconThemeData(color: primaryGreenColor),
     iconTheme: IconThemeData(),
     buttonTheme: ButtonThemeData(),
     textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-            backgroundColor: primaryGreenColor, textStyle: buttonText1)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            backgroundColor: primaryGreenColor,
+            textStyle: buttonText1)),
     scaffoldBackgroundColor: lightScaffoldColor);

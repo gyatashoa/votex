@@ -7,7 +7,8 @@ import 'package:votex/ui/widgets/custom_icon.dart';
 class StartUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<StartUpViewModel>.reactive(
+    return ViewModelBuilder<StartUpViewModel>.nonReactive(
+        onModelReady: StartUpViewModel().init,
         builder: (context, model, widget) {
           return Scaffold(
             backgroundColor: primaryGreenColor,
