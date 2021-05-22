@@ -6,6 +6,7 @@ class MainFormModel extends FormViewModel {
   String get errorMsg2 => 'length too short!';
   String get errorMsg3 => 'Length should be greater than 5!';
   String get errorMsg4 => 'Password fields do not match!';
+  String get errorMsg5 => 'Invalid school id!';
   // String get errorMsg5 => '';
   // String get errorMsg6 => '';
   // String get errorMsg7 => '';
@@ -38,8 +39,14 @@ class MainFormModel extends FormViewModel {
         return errorMsg4;
       }
     }
+
+    if (type == FieldType.SCHOOLID) {
+      if (data == null || data.length < 5) {
+        return errorMsg5;
+      }
+    }
     return null;
   }
 }
 
-enum FieldType { EMAIL, PASSWORD1, PASSWORD2 }
+enum FieldType { EMAIL, PASSWORD1, PASSWORD2, SCHOOLID, COLLEGE, DEPARTMENT }

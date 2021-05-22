@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
+import 'package:votex/app/app.router.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 
 class SignUpViewModel extends MainFormModel {
@@ -47,6 +48,9 @@ class SignUpViewModel extends MainFormModel {
       setBusy(true);
       await Future.delayed(Duration(seconds: 3));
       setBusy(false);
+      _navigationService.pushNamedAndRemoveUntil(
+          Routes.completeRegistrationView,
+          predicate: (route) => false);
     }
   }
 }

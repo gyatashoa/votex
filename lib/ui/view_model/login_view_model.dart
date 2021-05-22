@@ -42,7 +42,6 @@ class LoginViewModel extends MainFormModel {
     }
   }
 
-  void navigateToHome() {}
   void navigateToCreateAccount() {
     _navigationService.navigateTo(Routes.signUpView);
   }
