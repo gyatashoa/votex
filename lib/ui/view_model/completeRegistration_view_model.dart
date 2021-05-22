@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
+import 'package:votex/app/app.router.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 
 class CompleteRegistrationViewModel extends MainFormModel {
@@ -35,6 +36,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
       setBusy(true);
       await Future.delayed(Duration(seconds: 3));
       setBusy(false);
+      _navigationService.replaceWith(Routes.homeView);
     }
   }
 

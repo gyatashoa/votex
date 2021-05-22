@@ -81,6 +81,7 @@ class _MobileView extends StatelessWidget {
                         height: devSize.height * 0.02,
                       ),
                       TextFormField(
+                        onFieldSubmitted: (text) => model.signIn(),
                         textInputAction: TextInputAction.done,
                         style: textFieldInputFont,
                         keyboardType: TextInputType.visiblePassword,

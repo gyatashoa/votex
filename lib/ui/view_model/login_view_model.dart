@@ -28,6 +28,7 @@ class LoginViewModel extends MainFormModel {
       setBusy(true);
       await Future.delayed(Duration(seconds: 3));
       setBusy(false);
+      _navigationService.replaceWith(Routes.homeView);
     }
   }
 
