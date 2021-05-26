@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
-import 'package:votex/theme/color_palete.dart';
 import 'package:votex/ui/view_model/home_view_model.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
 

@@ -7,11 +7,13 @@ import 'package:votex/ui/views/signup_view.dart';
 import 'package:votex/ui/views/startup_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(page: StartUpView, initial: true),
+  MaterialRoute(
+    page: StartUpView,
+  ),
   MaterialRoute(page: LoginView),
   MaterialRoute(page: SignUpView),
   MaterialRoute(page: CompleteRegistrationView),
-  MaterialRoute(page: HomeView),
+  MaterialRoute(page: HomeView, initial: true),
 ], dependencies: [
   LazySingleton(classType: NavigationService)
 ])

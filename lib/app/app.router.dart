@@ -16,11 +16,11 @@ import '../ui/views/signup_view.dart';
 import '../ui/views/startup_view.dart';
 
 class Routes {
-  static const String startUpView = '/';
+  static const String startUpView = '/start-up-view';
   static const String loginView = '/login-view';
   static const String signUpView = '/sign-up-view';
   static const String completeRegistrationView = '/complete-registration-view';
-  static const String homeView = '/home-view';
+  static const String homeView = '/';
   static const all = <String>{
     startUpView,
     loginView,
