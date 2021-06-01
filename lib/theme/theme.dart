@@ -8,6 +8,7 @@ final ThemeData lightTheme = ThemeData(
       bodyText1: primaryText1,
       headline1: mainHeader1,
       headline2: mainHeader2,
+      headline3: mainHeader3,
       subtitle1: faintedTextPrimary,
       subtitle2: faintedTextSecondary,
     ),

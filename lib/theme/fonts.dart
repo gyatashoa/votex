@@ -8,6 +8,9 @@ final TextStyle mainHeader1 =
 final TextStyle mainHeader2 =
     GoogleFonts.courgette(fontSize: 25, color: lightScaffoldColor);
 
+final TextStyle mainHeader3 =
+    GoogleFonts.montserrat(fontSize: 18, color: Colors.black);
+
 final TextStyle primaryText1 =
     GoogleFonts.montserrat(fontSize: 16, color: mainLightTextColor);
 
@@ -33,3 +36,6 @@ final TextStyle logoTextStyle2 =
 
 final TextStyle textFieldInputFont =
     GoogleFonts.montserrat(fontSize: 16, color: mainLightTextColor);
+
+final TextStyle onGoingText = GoogleFonts.montserrat(
+    backgroundColor: Colors.white, color: Colors.green, fontSize: 13);

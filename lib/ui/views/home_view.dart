@@ -3,6 +3,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/ui/view_model/home_view_model.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
+import 'package:votex/ui/widgets/custom_vote_cards.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -37,6 +38,35 @@ class _MobileView extends StatelessWidget {
         child: Scaffold(
       body: Stack(
         children: [
+          Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    right: devSize.width * .07,
+                    left: devSize.width * .07,
+                    top: devSize.width * .08),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomVCards(
+                      pollTitle: 'SRC PRESIDENTIAL ELECTION',
+                    ),
+                    CustomVCards(
+                      pollTitle: 'SRC PRESIDENTIAL ELECTION',
+                    ),
+                    CustomVCards(
+                      pollTitle: 'SRC PRESIDENTIAL ELECTION',
+                    ),
+                    CustomVCards(
+                      pollTitle: 'SRC PRESIDENTIAL ELECTION',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(
                 right: devSize.width * .11,
@@ -48,7 +78,7 @@ class _MobileView extends StatelessWidget {
                   model: model,
                   info: info,
                 )),
-          )
+          ),
         ],
       ),
     ));
