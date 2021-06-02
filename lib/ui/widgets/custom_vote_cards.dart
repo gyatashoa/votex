@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:votex/models/voting_model.dart';
 import 'package:votex/theme/fonts.dart';
 
 class CustomVCards extends StatelessWidget {
-  final String? pollTitle;
+  final VotingModel? model;
 
-  const CustomVCards({Key? key, this.pollTitle}) : super(key: key);
+  const CustomVCards({Key? key, @required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
+    late String statusText;
+    switch (this.model!.status) {
+      case PollStatus.COMPLETED:
+        statusText = 'Completed';
+        break;
+      case PollStatus.ONGOING:
+        statusText = 'Ongoing';
+        break;
+      default:
+        statusText = 'Not Started';
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Container(
@@ -18,7 +30,7 @@ class CustomVCards extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    this.pollTitle!,
+                    this.model!.pollTitle,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
@@ -29,7 +41,7 @@ class CustomVCards extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       Text(
-                        'Ongoing',
+                        '$statusText',
                         style: onGoingText,
                       )
                     ],
@@ -39,22 +51,20 @@ class CustomVCards extends StatelessWidget {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _nameLabel(
-                                'Micheal Abuah Yeboah', Colors.red, context),
-                            _nameLabel(
-                                'Micheal Abuah Yeboah', Colors.yellow, context),
-                            _nameLabel(
-                                'Micheal Abuah Yeboah', Colors.blue, context),
-                            _nameLabel(
-                                'Micheal Abuah Yeboah', Colors.black, context),
-                          ],
+                          children: this
+                              .model!
+                              .contestants
+                              .asMap()
+                              .entries
+                              .map((e) => _nameLabel(
+                                  e.value, this.model!.tags![e.key], context))
+                              .toList(),
                         ),
                       ),
                       Container(
                           height: devSize.height * .15,
                           width: devSize.width * .31,
-                          child: _chart())
+                          child: _chart(this.model!))
                     ],
                   )
                 ],
@@ -93,39 +103,27 @@ Widget _nameLabel(String name, Color color, BuildContext context) => Row(
               maxLines: 1,
               softWrap: true,
               overflow: TextOverflow.fade,
-              style: Theme.of(context).textTheme.bodyText1),
+              style: Theme.of(context).textTheme.subtitle2),
         ),
       ],
     );
 
-PieChart _chart() {
+PieChart _chart(VotingModel model) {
   const image = 'assets/images/user_c.jpg';
-  return PieChart(PieChartData(sections: [
-    PieChartSectionData(
-        badgeWidget: _badgeWidget(image),
-        badgePositionPercentageOffset: .90,
-        color: Colors.red,
-        showTitle: false,
-        value: 58),
-    PieChartSectionData(
-        badgeWidget: _badgeWidget(image),
-        badgePositionPercentageOffset: .90,
-        color: Colors.yellow,
-        showTitle: false,
-        value: 22),
-    PieChartSectionData(
-        badgeWidget: _badgeWidget(image),
-        badgePositionPercentageOffset: .90,
-        color: Colors.blue,
-        showTitle: false,
-        value: 15),
-    PieChartSectionData(
-        badgeWidget: _badgeWidget(image),
-        badgePositionPercentageOffset: .90,
-        color: Colors.black,
-        showTitle: false,
-        value: 5),
-  ], sectionsSpace: 0, centerSpaceRadius: 15));
+
+  return PieChart(PieChartData(
+      sections: model.values
+          .asMap()
+          .entries
+          .map((e) => PieChartSectionData(
+              badgeWidget: _badgeWidget(image),
+              badgePositionPercentageOffset: .90,
+              color: model.tags![e.key],
+              showTitle: false,
+              value: e.value))
+          .toList(),
+      sectionsSpace: 0,
+      centerSpaceRadius: 15));
 }
 
 Widget _badgeWidget(String image) => Container(
