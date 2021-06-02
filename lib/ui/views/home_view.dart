@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:votex/ui/view_model/home_view_model.dart';
 import 'package:votex/ui/views/discover_view.dart';
 import 'package:votex/ui/views/search_view.dart';
+import 'package:votex/ui/views/settings_view.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
 
 class HomeView extends StatelessWidget {
@@ -31,7 +32,7 @@ class _MobileView extends StatelessWidget {
     DiscoverView(),
     SearchView(),
     Container(),
-    Container(),
+    SettingsView(),
     Container(),
   ];
 
