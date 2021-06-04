@@ -10,13 +10,26 @@ class DiscoverView extends StatelessWidget {
     return ViewModelBuilder<DiscoverViewModel>.reactive(
         builder: (context, model, widget) {
           if (!model.dataReady) return CircularProgressIndicator();
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: devSize.width * .07,
-                vertical: devSize.height * .025),
-            child: Column(
-                children:
-                    model.data!.map((e) => CustomVCards(model: e)).toList()),
+          return Column(
+            children: [
+              AppBar(
+                title: Text(
+                  model.title,
+                  style: Theme.of(context).appBarTheme.titleTextStyle,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: devSize.width * .07,
+                    vertical: devSize.height * .025),
+                child: SingleChildScrollView(
+                  child: Column(
+                      children: model.data!
+                          .map((e) => CustomVCards(model: e))
+                          .toList()),
+                ),
+              ),
+            ],
           );
         },
         viewModelBuilder: () => DiscoverViewModel());

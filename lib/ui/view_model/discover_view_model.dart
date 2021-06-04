@@ -5,6 +5,8 @@ import 'package:stacked/stacked.dart';
 import 'package:votex/models/voting_model.dart';
 
 class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
+  String get title => 'Discover';
+
   List<VotingModel> _list = [
     VotingModel('Src President', PollStatus.ONGOING, <String>[
       'Micheal Abuah Yeboah',

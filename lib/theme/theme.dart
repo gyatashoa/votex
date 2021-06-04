@@ -3,6 +3,11 @@ import 'package:votex/theme/color_palete.dart';
 import 'package:votex/theme/fonts.dart';
 
 final ThemeData lightTheme = ThemeData(
+    appBarTheme: AppBarTheme(
+        elevation: 0,
+        titleTextStyle: appBarTitle,
+        centerTitle: true,
+        backgroundColor: Colors.white),
     primaryColor: primaryGreenColor,
     textTheme: TextTheme(
       bodyText1: primaryText1,

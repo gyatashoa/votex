@@ -1,56 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
-import 'package:votex/theme/color_palete.dart';
 import 'package:votex/ui/view_model/settings_view_model.dart';
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({Key? key}) : super(key: key);
+  SettingsView({Key? key}) : super(key: key);
+
+  List<Map<String, dynamic>> _tiles = [
+    {
+      'title': 'About This App',
+      'icon': Icons.mobile_friendly,
+    },
+    {
+      'title': 'Terms And Conditions',
+      'icon': Icons.insert_drive_file_outlined,
+    },
+    {
+      'title': 'Sign Out',
+      'icon': Icons.logout,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
     return ViewModelBuilder<SettingsViewModel>.reactive(
         builder: (ctx, model, widget) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: devSize.width * .07,
-                vertical: devSize.height * .025),
-            child: Container(
+          return Container(
+              height: devSize.height,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    model.title,
-                    style: Theme.of(context).textTheme.headline1,
+                  AppBar(
+                      centerTitle: true,
+                      title: Text(
+                        model.title,
+                        style: Theme.of(context).appBarTheme.titleTextStyle,
+                      )),
+                  Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (ctx, i) => ListTile(
+                              title: Text(this._tiles[i]['title']),
+                              trailing: Icon(this._tiles[i]['icon']),
+                            ),
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: this._tiles.length),
                   ),
-                  ListTile(
-                    title: Text('Dark Mode'),
-                    trailing: Switch(
-                        activeColor: primaryGreenColor,
-                        value: model.getTheme,
-                        onChanged: model.onThemeChanged),
-                  ),
-                  ListTile(
-                    title: Text('Alerts'),
-                    trailing: IconButton(
-                        icon: Icon(Icons.alarm),
-                        onPressed: model.onAlertChanged),
-                  ),
-                  ListTile(
-                      title: Text('About this App'),
-                      trailing: Icon(Icons.mobile_friendly)),
-                  ListTile(
-                      onTap: () {},
-                      title: Text('Terms And Conditions'),
-                      trailing: Icon(Icons.insert_drive_file_outlined)),
-                  ListTile(
-                      onTap: () {},
-                      title: Text('Sign Out'),
-                      trailing: Icon(Icons.logout_rounded))
                 ],
-              ),
-            ),
-          );
+              ));
         },
         viewModelBuilder: () => SettingsViewModel());
   }

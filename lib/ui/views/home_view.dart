@@ -74,9 +74,3 @@ class _MobileView extends StatelessWidget {
     ));
   }
 }
-
-
-
-// right: devSize.width * .07,
-//                       left: devSize.width * .07,
-//                       top: devSize.width * .08),

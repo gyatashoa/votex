@@ -39,3 +39,6 @@ final TextStyle textFieldInputFont =
 
 final TextStyle onGoingText = GoogleFonts.montserrat(
     backgroundColor: Colors.white, color: Colors.green, fontSize: 13);
+
+final TextStyle appBarTitle =
+    GoogleFonts.poppins(color: Colors.black, fontSize: 25);
