@@ -3,6 +3,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/ui/view_model/home_view_model.dart';
 import 'package:votex/ui/views/discover_view.dart';
+import 'package:votex/ui/views/profile_view.dart';
 import 'package:votex/ui/views/search_view.dart';
 import 'package:votex/ui/views/settings_view.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
@@ -33,7 +34,7 @@ class _MobileView extends StatelessWidget {
     SearchView(),
     Container(),
     SettingsView(),
-    Container(),
+    ProfileView(),
   ];
 
   _MobileView(
@@ -53,12 +54,7 @@ class _MobileView extends StatelessWidget {
             height: double.infinity,
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      right: devSize.width * .07,
-                      left: devSize.width * .07,
-                      top: devSize.width * .08),
-                  child: this._tabs[model.currentIndex]),
+              child: this._tabs[model.currentIndex],
             ),
           ),
           Padding(
@@ -78,3 +74,9 @@ class _MobileView extends StatelessWidget {
     ));
   }
 }
+
+
+
+// right: devSize.width * .07,
+//                       left: devSize.width * .07,
+//                       top: devSize.width * .08),
