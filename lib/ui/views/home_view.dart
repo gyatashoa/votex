@@ -1,3 +1,5 @@
+import 'package:animations/animations.dart';
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -7,6 +9,7 @@ import 'package:votex/ui/views/profile_view.dart';
 import 'package:votex/ui/views/search_view.dart';
 import 'package:votex/ui/views/settings_view.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
+import 'package:votex/ui/widgets/fade_widget.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -29,7 +32,13 @@ class _MobileView extends StatelessWidget {
   final SizingInformation info;
   final HomeViewModel model;
 
-  final List<Widget> _tabs = <Widget>[
+  _MobileView(
+    this.info,
+    this.model, {
+    Key? key,
+  }) : super(key: key);
+
+  final List<Widget> _tabViews = <Widget>[
     DiscoverView(),
     SearchView(),
     Container(),
@@ -37,40 +46,35 @@ class _MobileView extends StatelessWidget {
     ProfileView(),
   ];
 
-  _MobileView(
-    this.info,
-    this.model, {
-    Key? key,
-  }) : super(key: key);
+  final List<TabData> _tabs = <TabData>[
+    TabData(iconData: Icons.explore_outlined, title: 'Discover'),
+    TabData(iconData: Icons.search, title: 'Search'),
+    TabData(iconData: Icons.bar_chart_rounded, title: 'Results'),
+    TabData(iconData: Icons.settings_outlined, title: 'Settings'),
+    // TabData(iconData: Icons.person_pin, title: 'Profile'),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    Size devSize = this.info.screenSize;
     return SafeArea(
-        child: Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: double.infinity,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: this._tabs[model.currentIndex],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                right: devSize.width * .11,
-                left: devSize.width * .11,
-                bottom: devSize.height * .1),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CustomNavBar(
-                  model: model,
-                  info: info,
-                )),
-          ),
-        ],
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+            duration: Duration(milliseconds: 300),
+            transitionBuilder: (Widget child,
+                Animation<double> primaryAnimation,
+                Animation<double> secondaryAnimation) {
+              return FadeThroughTransition(
+                  child: child,
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation);
+            },
+            child: this._tabViews[this.model.currentIndex]),
+        bottomNavigationBar: FancyBottomNavigation(
+          initialSelection: this.model.currentIndex,
+          onTabChangedListener: this.model.setIndex,
+          tabs: _tabs,
+        ),
       ),
-    ));
+    );
   }
 }

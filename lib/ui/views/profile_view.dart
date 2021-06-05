@@ -17,6 +17,7 @@ class ProfileView extends StatelessWidget {
         onModelReady: ProfileViewModel().init,
         builder: (ctx, model, widget) {
           return Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
             height: devSize.height,
             child: CustomScrollView(
               controller: model.scrollController,

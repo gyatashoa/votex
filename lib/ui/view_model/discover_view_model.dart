@@ -72,6 +72,54 @@ class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
       Colors.blue,
       Colors.black
     ]),
+    VotingModel('Src General Secretary', PollStatus.ONGOING, <String>[
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah'
+    ], <double>[
+      50,
+      22,
+      20,
+      8
+    ], tags: <Color>[
+      Colors.green,
+      Colors.yellow,
+      Colors.blue,
+      Colors.black
+    ]),
+    VotingModel('Src General Secretary', PollStatus.ONGOING, <String>[
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah'
+    ], <double>[
+      50,
+      22,
+      20,
+      8
+    ], tags: <Color>[
+      Colors.green,
+      Colors.yellow,
+      Colors.blue,
+      Colors.black
+    ]),
+    VotingModel('Src General Secretary', PollStatus.ONGOING, <String>[
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah',
+      'Micheal Abuah Yeboah'
+    ], <double>[
+      50,
+      22,
+      20,
+      8
+    ], tags: <Color>[
+      Colors.green,
+      Colors.yellow,
+      Colors.blue,
+      Colors.black
+    ]),
   ];
 
   @override

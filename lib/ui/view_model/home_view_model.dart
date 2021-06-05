@@ -1,8 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:votex/ui/view_model/startup_view_model.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
-  String get title => this._title;
+  final ScrollController mainScrollController = ScrollController();
 
-  String _title = 'Explore';
+  // final ScrollController mainScrollController = ScrollController();
+  // void init(HomeViewModel _) {
+  //   mainScrollController.addListener(() {});
+  //   print(mainScrollController.offset);
+  // }
+
+  // double initOffset = 0;
+
+  // void listen() async {
+  //   mainScrollController.addListener(() {
+  //     if (this.initOffset < mainScrollController.offset) {
+  //       initOffset = mainScrollController.offset;
+  //       print(initOffset);
+  //     } else {
+  //       initOffset = mainScrollController.offset;
+  //       print(initOffset);
+  //     }
+  //   });
+  // }
+
+  // double getOpacity() {
+  //   double opacity = mainScrollController.offset - initOffset;
+  //   if (opacity > 1) opacity = 1;
+  //   initOffset = mainScrollController.offset;
+  //   return opacity;
+  // }
 }

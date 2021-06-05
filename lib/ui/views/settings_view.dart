@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/ui/view_model/settings_view_model.dart';
 
@@ -27,6 +26,7 @@ class SettingsView extends StatelessWidget {
     return ViewModelBuilder<SettingsViewModel>.reactive(
         builder: (ctx, model, widget) {
           return Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
               height: devSize.height,
               child: Column(
                 children: [

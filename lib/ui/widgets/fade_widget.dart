@@ -4,8 +4,10 @@ class FadeOnScroll extends StatefulWidget {
   final ScrollController? scrollController;
   final Widget? child;
   final double? appBarHeight;
+  final bool isForNavBar;
 
   FadeOnScroll({
+    this.isForNavBar = false,
     @required this.appBarHeight,
     @required this.scrollController,
     @required this.child,
@@ -37,11 +39,17 @@ class _FadeOnScrollState extends State<FadeOnScroll> {
     });
   }
 
+  double initOffset = 0;
+
   double _getOpacity() {
     var val =
         (this.widget.appBarHeight! - _offset!) / this.widget.appBarHeight!;
     if (val.isNegative) val = 0;
     if (val > 1) val = 1;
+    if (this.widget.isForNavBar && val < .4) val = .35;
+    if (this.widget.isForNavBar &&
+        (this.initOffset > this.widget.scrollController!.offset)) val = 1;
+    initOffset = this.widget.scrollController!.offset;
     return val;
   }
 
