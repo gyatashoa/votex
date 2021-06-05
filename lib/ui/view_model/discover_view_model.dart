@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:votex/app/app.locator.dart';
+import 'package:votex/app/app.router.dart';
 import 'package:votex/models/voting_model.dart';
 
 class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
   String get title => 'Discover';
+  final _navigator = locator<NavigationService>();
 
   List<VotingModel> _list = [
     VotingModel('Src President', PollStatus.ONGOING, <String>[
@@ -121,6 +125,11 @@ class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
       Colors.black
     ]),
   ];
+
+  void navigateToDetail(VotingModel model) {
+    this._navigator.navigateTo(Routes.votingDetailView,
+        arguments: VotingDetailViewArguments(model: model));
+  }
 
   @override
   Stream<List<VotingModel>> get stream => Stream.value(_list);

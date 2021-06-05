@@ -9,12 +9,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../models/voting_model.dart';
 import '../ui/views/complete_registration_view.dart';
 import '../ui/views/home_view.dart';
 import '../ui/views/login_view.dart';
 import '../ui/views/profile_view.dart';
 import '../ui/views/signup_view.dart';
 import '../ui/views/startup_view.dart';
+import '../ui/views/voting_detail_view.dart';
 
 class Routes {
   static const String startUpView = '/start-up-view';
@@ -23,6 +25,7 @@ class Routes {
   static const String completeRegistrationView = '/complete-registration-view';
   static const String homeView = '/';
   static const String profileView = '/profile-view';
+  static const String votingDetailView = '/voting-detail-view';
   static const all = <String>{
     startUpView,
     loginView,
@@ -30,6 +33,7 @@ class Routes {
     completeRegistrationView,
     homeView,
     profileView,
+    votingDetailView,
   };
 }
 
@@ -43,6 +47,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.completeRegistrationView, page: CompleteRegistrationView),
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.profileView, page: ProfileView),
+    RouteDef(Routes.votingDetailView, page: VotingDetailView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -83,5 +88,26 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    VotingDetailView: (data) {
+      var args = data.getArgs<VotingDetailViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => VotingDetailView(
+          args.model,
+          key: args.key,
+        ),
+        settings: data,
+      );
+    },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// VotingDetailView arguments holder class
+class VotingDetailViewArguments {
+  final VotingModel model;
+  final Key? key;
+  VotingDetailViewArguments({required this.model, this.key});
 }
