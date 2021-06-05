@@ -7,47 +7,49 @@ class SettingsView extends StatelessWidget {
 
   List<Map<String, dynamic>> _tiles = [
     {
+      'title': 'Edit Profile',
+      'icon': Icons.person_pin,
+      'navigateTo': PageToNavigateTo.PROFILE
+    },
+    {
       'title': 'About This App',
       'icon': Icons.mobile_friendly,
+      'navigateTo': PageToNavigateTo.ABOUT_APP
     },
     {
       'title': 'Terms And Conditions',
       'icon': Icons.insert_drive_file_outlined,
+      'navigateTo': PageToNavigateTo.TERMS
     },
     {
       'title': 'Sign Out',
       'icon': Icons.logout,
+      'navigateTo': PageToNavigateTo.SIGN_OUT
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
-    return ViewModelBuilder<SettingsViewModel>.reactive(
+    return ViewModelBuilder<SettingsViewModel>.nonReactive(
         builder: (ctx, model, widget) {
           return Container(
+              padding: EdgeInsets.only(top: 10),
               color: Theme.of(context).scaffoldBackgroundColor,
               height: devSize.height,
-              child: Column(
-                children: [
-                  AppBar(
-                      centerTitle: true,
-                      title: Text(
-                        model.title,
-                        style: Theme.of(context).appBarTheme.titleTextStyle,
-                      )),
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (ctx, i) => ListTile(
-                              title: Text(this._tiles[i]['title']),
-                              trailing: Icon(this._tiles[i]['icon']),
-                            ),
-                        separatorBuilder: (ctx, i) => Divider(),
-                        itemCount: this._tiles.length),
-                  ),
-                ],
-              ));
+              child: ListView.separated(
+                  itemBuilder: (ctx, i) => ListTile(
+                        enableFeedback: true,
+                        onTap: () => model.onTileTapped(
+                            this._tiles[i]['navigateTo'], context),
+                        title: Text(this._tiles[i]['title']),
+                        trailing: Icon(this._tiles[i]['icon']),
+                      ),
+                  separatorBuilder: (ctx, i) => Divider(),
+                  itemCount: this._tiles.length));
         },
         viewModelBuilder: () => SettingsViewModel());
   }
 }
+
+enum PageToNavigateTo { PROFILE, ABOUT_APP, TERMS, SIGN_OUT }
