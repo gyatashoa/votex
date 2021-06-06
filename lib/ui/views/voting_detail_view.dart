@@ -1,9 +1,12 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/models/voting_model.dart';
+import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
+import 'package:votex/ui/widgets/pie_chart.dart';
 
 class VotingDetailView extends StatelessWidget {
   final VotingModel dataModel;
@@ -29,6 +32,7 @@ class _MobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final devSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -38,7 +42,7 @@ class _MobileView extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.black,
               )),
-          elevation: 2,
+          elevation: 4,
           title: Text(
             this.data.pollTitle,
             style: Theme.of(context).textTheme.headline3,
@@ -60,7 +64,86 @@ class _MobileView extends StatelessWidget {
                 : SizedBox.shrink(),
           ],
         ),
-        body: Container(),
+        body: Container(
+          child: Stack(
+            children: [
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: devSize.width * .095, vertical: 40),
+                    child: TextButton(
+                      onPressed: model.onVotePressed,
+                      child: Text(
+                        'VOTE',
+                        style: GoogleFonts.montserrat(color: Colors.white),
+                      ),
+                    ),
+                  )),
+              Positioned.fill(
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 40),
+                      height: 200,
+                      child: PieChartWidget(
+                        model: this.data,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      children: this
+                          .data
+                          .contestants
+                          .asMap()
+                          .entries
+                          .map((e) => ListTile(
+                                leading: Container(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/user_c.jpg'))),
+                                ),
+                                title: Text(
+                                  e.value,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                subtitle: Text(
+                                  '12,556 votes',
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                                trailing: CircleAvatar(
+                                  radius: 18,
+                                  child: Text(
+                                    '${this.data.values[e.key]}%',
+                                    style: smallWhiteText,
+                                  ),
+                                  backgroundColor: this.data.tags![e.key],
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Total Votes: 28,685',
+                      style: boldBlackMediumText,
+                    )
+                  ],
+                ),
+              ))
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -42,3 +42,9 @@ final TextStyle onGoingText = GoogleFonts.montserrat(
 
 final TextStyle appBarTitle =
     GoogleFonts.poppins(color: Colors.black, fontSize: 25);
+
+final TextStyle smallWhiteText =
+    GoogleFonts.montserrat(color: Colors.white, fontSize: 10);
+
+final TextStyle boldBlackMediumText = GoogleFonts.montserrat(
+    fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600);

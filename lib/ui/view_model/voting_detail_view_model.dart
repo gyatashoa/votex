@@ -6,4 +6,6 @@ class VotingDetailViewModel extends BaseViewModel {
   final _navigator = locator<NavigationService>();
 
   void goBack() => _navigator.back();
+
+  void onVotePressed() {}
 }
