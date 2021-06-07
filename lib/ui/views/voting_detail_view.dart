@@ -67,22 +67,9 @@ class _MobileView extends StatelessWidget {
         body: Container(
           child: Stack(
             children: [
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: devSize.width * .095, vertical: 40),
-                    child: TextButton(
-                      onPressed: model.onVotePressed,
-                      child: Text(
-                        'VOTE',
-                        style: GoogleFonts.montserrat(color: Colors.white),
-                      ),
-                    ),
-                  )),
               Positioned.fill(
                   child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     Container(
@@ -140,7 +127,21 @@ class _MobileView extends StatelessWidget {
                     )
                   ],
                 ),
-              ))
+              )),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: devSize.width * .095, vertical: 40),
+                    child: TextButton(
+                      onPressed: () => model.onVotePressed(data),
+                      child: Text(
+                        'VOTE',
+                        style: whiteBtnText,
+                      ),
+                    ),
+                  )),
             ],
           ),
         ),

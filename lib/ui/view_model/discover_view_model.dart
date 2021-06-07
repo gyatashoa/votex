@@ -128,7 +128,7 @@ class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
 
   void navigateToDetail(VotingModel model) {
     this._navigator.navigateTo(Routes.votingDetailView,
-        arguments: VotingDetailViewArguments(model: model));
+        arguments: VotingDetailViewArguments(dataModel: model));
   }
 
   @override

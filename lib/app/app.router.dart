@@ -17,6 +17,7 @@ import '../ui/views/profile_view.dart';
 import '../ui/views/signup_view.dart';
 import '../ui/views/startup_view.dart';
 import '../ui/views/voting_detail_view.dart';
+import '../ui/views/voting_view.dart';
 
 class Routes {
   static const String startUpView = '/start-up-view';
@@ -26,6 +27,7 @@ class Routes {
   static const String homeView = '/';
   static const String profileView = '/profile-view';
   static const String votingDetailView = '/voting-detail-view';
+  static const String votingView = '/voting-view';
   static const all = <String>{
     startUpView,
     loginView,
@@ -34,6 +36,7 @@ class Routes {
     homeView,
     profileView,
     votingDetailView,
+    votingView,
   };
 }
 
@@ -48,6 +51,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.profileView, page: ProfileView),
     RouteDef(Routes.votingDetailView, page: VotingDetailView),
+    RouteDef(Routes.votingView, page: VotingView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -92,7 +96,17 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<VotingDetailViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => VotingDetailView(
-          args.model,
+          args.dataModel,
+          key: args.key,
+        ),
+        settings: data,
+      );
+    },
+    VotingView: (data) {
+      var args = data.getArgs<VotingViewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => VotingView(
+          args.dataModel,
           key: args.key,
         ),
         settings: data,
@@ -107,7 +121,14 @@ class StackedRouter extends RouterBase {
 
 /// VotingDetailView arguments holder class
 class VotingDetailViewArguments {
-  final VotingModel model;
+  final VotingModel dataModel;
   final Key? key;
-  VotingDetailViewArguments({required this.model, this.key});
+  VotingDetailViewArguments({required this.dataModel, this.key});
+}
+
+/// VotingView arguments holder class
+class VotingViewArguments {
+  final VotingModel dataModel;
+  final Key? key;
+  VotingViewArguments({required this.dataModel, this.key});
 }

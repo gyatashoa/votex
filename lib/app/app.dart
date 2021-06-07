@@ -7,6 +7,7 @@ import 'package:votex/ui/views/profile_view.dart';
 import 'package:votex/ui/views/signup_view.dart';
 import 'package:votex/ui/views/startup_view.dart';
 import 'package:votex/ui/views/voting_detail_view.dart';
+import 'package:votex/ui/views/voting_view.dart';
 
 @StackedApp(routes: [
   MaterialRoute(
@@ -22,7 +23,11 @@ import 'package:votex/ui/views/voting_detail_view.dart';
   MaterialRoute(
     page: VotingDetailView,
   ),
+  MaterialRoute(
+    page: VotingView,
+  ),
 ], dependencies: [
-  LazySingleton(classType: NavigationService)
+  LazySingleton(classType: NavigationService),
+  LazySingleton(classType: DialogService)
 ])
 class AppSetup {}

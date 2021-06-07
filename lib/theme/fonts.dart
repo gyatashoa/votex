@@ -48,3 +48,5 @@ final TextStyle smallWhiteText =
 
 final TextStyle boldBlackMediumText = GoogleFonts.montserrat(
     fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600);
+
+final TextStyle whiteBtnText = GoogleFonts.montserrat(color: Colors.white);
