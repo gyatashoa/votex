@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
@@ -6,9 +7,11 @@ import 'package:votex/theme/theme.dart';
 import 'package:votex/utils/appsettings.dart';
 import 'package:votex/utils/setup_bottom_sheet.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   setupBottomSheetUi();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

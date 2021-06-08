@@ -20,11 +20,11 @@ import '../ui/views/voting_detail_view.dart';
 import '../ui/views/voting_view.dart';
 
 class Routes {
-  static const String startUpView = '/start-up-view';
+  static const String startUpView = '/';
   static const String loginView = '/login-view';
   static const String signUpView = '/sign-up-view';
   static const String completeRegistrationView = '/complete-registration-view';
-  static const String homeView = '/';
+  static const String homeView = '/home-view';
   static const String profileView = '/profile-view';
   static const String votingDetailView = '/voting-detail-view';
   static const String votingView = '/voting-view';

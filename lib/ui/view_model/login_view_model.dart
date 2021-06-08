@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
+import 'package:votex/services/auth_services.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 
 class LoginViewModel extends MainFormModel {
@@ -21,14 +22,31 @@ class LoginViewModel extends MainFormModel {
   };
 
   NavigationService _navigationService = locator<NavigationService>();
+  DialogService _dialogService = locator<DialogService>();
+  AuthServices _authService = locator<AuthServices>();
 
   void forgotPassword() {}
   void signIn() async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
-      await Future.delayed(Duration(seconds: 3));
+      var result =
+          await _authService.signIn(data['email']!, data['password1']!);
       setBusy(false);
-      _navigationService.replaceWith(Routes.homeView);
+      if (result is bool) {
+        if (result) {
+          _navigationService.replaceWith(Routes.homeView);
+        } else {
+          await _dialogService.showDialog(
+            title: 'Sign Up Failure',
+            description: 'General sign up failure. Please try again later',
+          );
+        }
+      } else {
+        await _dialogService.showDialog(
+          title: 'Sign Up Failure',
+          description: result.message,
+        );
+      }
     }
   }
 
