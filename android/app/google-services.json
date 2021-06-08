@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "330774272458",
+    "project_id": "votex-b42b4",
+    "storage_bucket": "votex-b42b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330774272458:android:a582bc2aa6465faa3f1733",
+        "android_client_info": {
+          "package_name": "com.example.votex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330774272458-3nkeekdp2hcos6d3b4r48dd4u4sl1hhd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHEOB_YIPbwuFhtlGVjwnPeu9KMT2CqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330774272458-3nkeekdp2hcos6d3b4r48dd4u4sl1hhd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

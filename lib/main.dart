@@ -4,9 +4,11 @@ import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
 import 'package:votex/theme/theme.dart';
 import 'package:votex/utils/appsettings.dart';
+import 'package:votex/utils/setup_bottom_sheet.dart';
 
 void main() {
   setupLocator();
+  setupBottomSheetUi();
   runApp(MyApp());
 }
 

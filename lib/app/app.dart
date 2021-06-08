@@ -28,6 +28,7 @@ import 'package:votex/ui/views/voting_view.dart';
   ),
 ], dependencies: [
   LazySingleton(classType: NavigationService),
-  LazySingleton(classType: DialogService)
+  LazySingleton(classType: DialogService),
+  LazySingleton(classType: BottomSheetService)
 ])
 class AppSetup {}
