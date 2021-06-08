@@ -26,4 +26,8 @@ class AuthServices {
       return e;
     }
   }
+
+  Future signOut() async {
+    await _instance.signOut();
+  }
 }
