@@ -2,6 +2,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/services/auth_services.dart';
 import 'package:votex/services/date_services.dart';
+import 'package:votex/services/firestore_services.dart';
 import 'package:votex/ui/views/complete_registration_view.dart';
 import 'package:votex/ui/views/home_view.dart';
 import 'package:votex/ui/views/login_view.dart';
@@ -36,5 +37,6 @@ import 'package:votex/ui/views/voting_view.dart';
   LazySingleton(classType: BottomSheetService),
   LazySingleton(classType: AuthServices),
   LazySingleton(classType: DateServices),
+  LazySingleton(classType: FirestoreServices)
 ])
 class AppSetup {}

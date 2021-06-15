@@ -8,6 +8,7 @@ import 'package:votex/ui/view_model/completeRegistration_view_model.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 import 'package:votex/ui/widgets/auth_busy_btn.dart';
 import 'package:votex/ui/widgets/auth_header.dart';
+import 'package:votex/ui/widgets/custom_datefield.dart';
 import 'package:votex/ui/widgets/custom_icon.dart';
 import 'package:votex/utils/dateutils.dart';
 
@@ -98,12 +99,7 @@ class _MobileView extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: InputDatePickerFormField(
-                                initialDate: model.data['dob'],
-                                onDateSubmitted: model.onDateSubmitted,
-                                onDateSaved: model.onDateSaved,
-                                firstDate: DateUtil.initialDate,
-                                lastDate: DateUtil.endDate),
+                            child: CustomDateField(model.dateController),
                           ),
                           TextButton(
                             child: Icon(
@@ -117,26 +113,26 @@ class _MobileView extends StatelessWidget {
                       SizedBox(
                         height: devSize.height * 0.02,
                       ),
-                      DropdownButtonFormField<int>(
+                      DropdownButtonFormField<String>(
                           hint: Text(model.collegeTxt),
-                          validator: (int? i) => model.validator(
-                              type: FieldType.COLLEGE, value: i),
+                          validator: (String? i) =>
+                              model.validator(type: FieldType.COLLEGE, data: i),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          onChanged: (int? i) => model.onDropChanged(
+                          onChanged: (String? i) => model.onDropChanged(
                               data: i, type: FieldType.COLLEGE),
                           value: model.data['college'],
                           items: model.colleges),
                       SizedBox(
                         height: devSize.height * 0.02,
                       ),
-                      DropdownButtonFormField<int>(
+                      DropdownButtonFormField<String>(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           hint: Text(model.departmentTxt),
-                          validator: (int? i) => model.validator(
-                              value: i, type: FieldType.DEPARTMENT),
-                          onChanged: (int? i) => model.onDropChanged(
+                          validator: (String? i) => model.validator(
                               data: i, type: FieldType.DEPARTMENT),
-                          value: model.data['department'],
+                          onChanged: (String? i) => model.onDropChanged(
+                              data: i, type: FieldType.DEPARTMENT),
+                          value: model.data['departmentId'],
                           items: model.departments),
                       SizedBox(
                         height: devSize.height * 0.07,

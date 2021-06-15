@@ -50,13 +50,13 @@ class MainFormModel extends FormViewModel {
     }
 
     if (type == FieldType.COLLEGE) {
-      if (value == null) {
+      if (data == null) {
         return errorMsg6;
       }
     }
 
     if (type == FieldType.DEPARTMENT) {
-      if (value == null) {
+      if (data == null) {
         return errorMsg7;
       }
     }

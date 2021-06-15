@@ -30,4 +30,13 @@ class AuthServices {
   Future signOut() async {
     await _instance.signOut();
   }
+
+  Future UpdateName(String name) async {
+    try {
+      await _instance.currentUser!.updateDisplayName(name);
+      await _instance.currentUser!.reload();
+    } catch (e) {
+      return e;
+    }
+  }
 }

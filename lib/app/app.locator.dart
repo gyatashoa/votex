@@ -12,6 +12,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../services/auth_services.dart';
 import '../services/date_services.dart';
+import '../services/firestore_services.dart';
 
 final locator = StackedLocator.instance;
 
@@ -26,4 +27,5 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => AuthServices());
   locator.registerLazySingleton(() => DateServices());
+  locator.registerLazySingleton(() => FirestoreServices());
 }

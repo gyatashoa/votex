@@ -1,7 +1,7 @@
 class College {
   final String id;
   final String name;
-  final List<String> departmentIds;
+  final List<dynamic> departmentIds;
 
   College(this.id, this.name, this.departmentIds);
 
@@ -12,4 +12,9 @@ class College {
 
   Map<String, dynamic> toJson() =>
       {'id': this.id, 'name': this.name, 'departmentIds': this.departmentIds};
+
+  @override
+  String toString() {
+    return 'College';
+  }
 }
