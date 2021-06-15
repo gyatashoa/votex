@@ -21,10 +21,4 @@ final ThemeData lightTheme = ThemeData(
     accentIconTheme: IconThemeData(color: primaryGreenColor),
     iconTheme: IconThemeData(),
     buttonTheme: ButtonThemeData(),
-    textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            backgroundColor: primaryGreenColor,
-            textStyle: buttonText1)),
     scaffoldBackgroundColor: lightScaffoldColor);

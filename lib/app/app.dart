@@ -1,6 +1,7 @@
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/services/auth_services.dart';
+import 'package:votex/services/date_services.dart';
 import 'package:votex/ui/views/complete_registration_view.dart';
 import 'package:votex/ui/views/home_view.dart';
 import 'package:votex/ui/views/login_view.dart';
@@ -11,10 +12,12 @@ import 'package:votex/ui/views/voting_detail_view.dart';
 import 'package:votex/ui/views/voting_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(page: StartUpView, initial: true),
+  MaterialRoute(
+    page: StartUpView,
+  ),
   MaterialRoute(page: LoginView),
   MaterialRoute(page: SignUpView),
-  MaterialRoute(page: CompleteRegistrationView),
+  MaterialRoute(page: CompleteRegistrationView, initial: true),
   MaterialRoute(
     page: HomeView,
   ),
@@ -32,5 +35,6 @@ import 'package:votex/ui/views/voting_view.dart';
   LazySingleton(classType: DialogService),
   LazySingleton(classType: BottomSheetService),
   LazySingleton(classType: AuthServices),
+  LazySingleton(classType: DateServices),
 ])
 class AppSetup {}

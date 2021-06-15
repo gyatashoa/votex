@@ -6,7 +6,9 @@ class MainFormModel extends FormViewModel {
   String get errorMsg2 => 'length too short!';
   String get errorMsg3 => 'Length should be greater than 5!';
   String get errorMsg4 => 'Password fields do not match!';
-  String get errorMsg5 => 'Invalid school id!';
+  String get errorMsg5 => 'Invalid Name!';
+  String get errorMsg6 => 'Invalid College!';
+  String get errorMsg7 => 'Invalid Department!';
   // String get errorMsg5 => '';
   // String get errorMsg6 => '';
   // String get errorMsg7 => '';
@@ -20,7 +22,8 @@ class MainFormModel extends FormViewModel {
     FocusScope.of(context).unfocus();
   }
 
-  String? validator({String? data, FieldType? type, String? password1}) {
+  String? validator(
+      {String? data, FieldType? type, String? password1, int? value}) {
     if (type == FieldType.EMAIL) {
       //validate for email
       if (data == null || data.length < 6) {
@@ -40,13 +43,25 @@ class MainFormModel extends FormViewModel {
       }
     }
 
-    if (type == FieldType.SCHOOLID) {
-      if (data == null || data.length < 5) {
+    if (type == FieldType.NAME) {
+      if (data == null || data.trim().length < 2) {
         return errorMsg5;
+      }
+    }
+
+    if (type == FieldType.COLLEGE) {
+      if (value == null) {
+        return errorMsg6;
+      }
+    }
+
+    if (type == FieldType.DEPARTMENT) {
+      if (value == null) {
+        return errorMsg7;
       }
     }
     return null;
   }
 }
 
-enum FieldType { EMAIL, PASSWORD1, PASSWORD2, SCHOOLID, COLLEGE, DEPARTMENT }
+enum FieldType { NAME, EMAIL, PASSWORD1, PASSWORD2, COLLEGE, DEPARTMENT }

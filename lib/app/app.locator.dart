@@ -11,6 +11,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../services/auth_services.dart';
+import '../services/date_services.dart';
 
 final locator = StackedLocator.instance;
 
@@ -24,4 +25,5 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => AuthServices());
+  locator.registerLazySingleton(() => DateServices());
 }

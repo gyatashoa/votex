@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 
 class AuthBusyBtn extends StatefulWidget {
@@ -19,6 +20,7 @@ class _AuthBusyBtnState extends State<AuthBusyBtn> {
     return Container(
       width: double.infinity,
       child: TextButton(
+          style: btnGreen.style,
           onPressed: this.widget.isBusy ? null : this.widget.onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.0),
