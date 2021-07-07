@@ -14,12 +14,12 @@ import 'package:votex/ui/views/voting_detail_view.dart';
 import 'package:votex/ui/views/voting_view.dart';
 
 @StackedApp(routes: [
-  MaterialRoute(
-    page: StartUpView,
-  ),
+  MaterialRoute(page: StartUpView, initial: true),
   MaterialRoute(page: LoginView),
   MaterialRoute(page: SignUpView),
-  MaterialRoute(page: CompleteRegistrationView, initial: true),
+  MaterialRoute(
+    page: CompleteRegistrationView,
+  ),
   MaterialRoute(
     page: HomeView,
   ),
