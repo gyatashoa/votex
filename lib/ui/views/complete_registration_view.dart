@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/theme/color_palete.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/completeRegistration_view_model.dart';
@@ -137,10 +139,12 @@ class _MobileView extends StatelessWidget {
                       SizedBox(
                         height: devSize.height * 0.07,
                       ),
-                      AuthBusyBtn(
-                        model.signText,
-                        onPressed: model.submit,
-                        isBusy: model.isBusy,
+                      Consumer<UserDetailsProvider>(
+                        builder: (_, provider, __) => AuthBusyBtn(
+                          model.signText,
+                          onPressed: () => model.submit(provider),
+                          isBusy: model.isBusy,
+                        ),
                       ),
                     ],
                   ),

@@ -6,6 +6,7 @@ import 'package:votex/app/app.router.dart';
 import 'package:votex/models/UserDetails_model.dart';
 import 'package:votex/models/college_model.dart';
 import 'package:votex/models/department_model.dart';
+import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/services/auth_services.dart';
 import 'package:votex/services/date_services.dart';
 import 'package:votex/services/firestore_services.dart';
@@ -46,7 +47,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
   DialogService _dialogService = locator<DialogService>();
   LocalCachingSevices _cachingSevices = locator<LocalCachingSevices>();
 
-  void submit() async {
+  void submit(UserDetailsProvider provider) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
       var cleanData = UserDetails(_authServices.currentUser!, data['collegeId'],
@@ -81,10 +82,11 @@ class CompleteRegistrationViewModel extends MainFormModel {
         ..collegeId = college.id
         ..collegeName = college.name
         ..departmentId = department.id
+        ..departmentName = department.name
         ..dob = cleanData.dob;
       await _cachingSevices.cacheUserDetails(user);
       //caching ends
-      //TODO: Update User details store
+      provider.userDetails = user;
       setBusy(false);
       _navigationService.replaceWith(Routes.homeView);
     }
