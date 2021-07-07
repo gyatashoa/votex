@@ -14,11 +14,11 @@ class StartUpViewModel extends BaseViewModel {
 
   void init(StartUpViewModel model, UserDetailsProvider provider) async {
     var user = this._authServices.currentUser;
-    var userDetails = this._localCachingSevices.getcachedUserDetails();
     if (user != null) {
+      var userDetails = await this._localCachingSevices.getcachedUserDetails();
       if (userDetails != null) {
         //set store here
-        provider.userDetails = userDetails as HiveUserDetails;
+        provider.userDetails = userDetails;
         //navigate to home route
         await _navigationService.replaceWith(Routes.homeView);
         return;

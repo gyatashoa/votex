@@ -1,7 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/ui/view_model/profile_view_model.dart';
 import 'package:votex/ui/widgets/fade_widget.dart';
 
@@ -14,8 +17,10 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDetailsProvider provider = Provider.of<UserDetailsProvider>(context);
     return ViewModelBuilder<ProfileViewModel>.nonReactive(
-        onModelReady: ProfileViewModel().init,
+        onModelReady: (model) => SchedulerBinding.instance!
+            .addPostFrameCallback((_) => model.init(model, provider)),
         builder: (ctx, model, widget) {
           return ResponsiveBuilder(builder: (ctx, info) {
             if (info.isMobile) return _MobileView(model);
@@ -100,7 +105,7 @@ class _MobileView extends StatelessWidget {
                       _CustomTextFieldLabels(model.emailController,
                           isEditable: false, labelText: model.emailText),
                       _CustomTextFieldLabels(model.dateController,
-                          isEditable: true, labelText: model.dateText),
+                          isEditable: false, labelText: model.dateText),
                       _CustomTextFieldLabels(model.collegeController,
                           isEditable: false, labelText: model.collegeText),
                       _CustomTextFieldLabels(model.departmentController,
