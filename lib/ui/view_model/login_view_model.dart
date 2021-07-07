@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
+import 'package:votex/models/UserDetails_model.dart';
 import 'package:votex/services/auth_services.dart';
+import 'package:votex/services/firestore_services.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 
 class LoginViewModel extends MainFormModel {
@@ -24,6 +26,7 @@ class LoginViewModel extends MainFormModel {
   NavigationService _navigationService = locator<NavigationService>();
   DialogService _dialogService = locator<DialogService>();
   AuthServices _authService = locator<AuthServices>();
+  FirestoreServices _firestoreServices = locator<FirestoreServices>();
 
   void forgotPassword() {}
   void signIn() async {
@@ -31,6 +34,7 @@ class LoginViewModel extends MainFormModel {
       setBusy(true);
       var result =
           await _authService.signIn(data['email']!, data['password1']!);
+      var userdetails = await _firestoreServices.getUserDetails(UserDetails);
       setBusy(false);
       if (result is bool) {
         if (result) {

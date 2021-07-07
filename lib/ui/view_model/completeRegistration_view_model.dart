@@ -9,6 +9,8 @@ import 'package:votex/models/department_model.dart';
 import 'package:votex/services/auth_services.dart';
 import 'package:votex/services/date_services.dart';
 import 'package:votex/services/firestore_services.dart';
+import 'package:votex/models/hiveUserDetails_model.dart';
+import 'package:votex/services/local_caching_services.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
 import 'package:votex/utils/dateutils.dart';
 
@@ -34,6 +36,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
 
   List<DropdownMenuItem<String>> colleges = [];
   List<Department> _deps = [];
+  List<College> _cols = [];
   List<DropdownMenuItem<String>> departments = [];
 
   NavigationService _navigationService = locator<NavigationService>();
@@ -41,6 +44,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
   AuthServices _authServices = locator<AuthServices>();
   FirestoreServices _firestoreServices = locator<FirestoreServices>();
   DialogService _dialogService = locator<DialogService>();
+  LocalCachingSevices _cachingSevices = locator<LocalCachingSevices>();
 
   void submit() async {
     if (formKey.currentState!.validate()) {
@@ -50,14 +54,37 @@ class CompleteRegistrationViewModel extends MainFormModel {
       var result =
           await _firestoreServices.uploadData(cleanData.toJson(), UserDetails);
       var result1 = await _authServices.UpdateName(data['name']);
-      if (result == null) {
-        print('gone through');
-      } else {
+
+      if (result != null) {
         await _dialogService.showDialog(
           title: 'Error',
           description: result.message,
         );
+        //end function
+        setBusy(false);
+        return;
       }
+
+      //cached user details here
+      late Department department;
+      late College college;
+
+      _deps.forEach((element) {
+        if (element.id == cleanData.departmentId) department = element;
+      });
+
+      _cols.forEach((element) {
+        if (element.id == cleanData.collegeId) college = element;
+      });
+
+      var user = HiveUserDetails()
+        ..collegeId = college.id
+        ..collegeName = college.name
+        ..departmentId = department.id
+        ..dob = cleanData.dob;
+      await _cachingSevices.cacheUserDetails(user);
+      //caching ends
+      //TODO: Update User details store
       setBusy(false);
       _navigationService.replaceWith(Routes.homeView);
     }
@@ -104,6 +131,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
     data['name'] = _authServices.currentUser!.displayName;
     var res = await _firestoreServices.getColleges();
     if (res is List<College>) {
+      _cols = res;
       colleges = res
           .map(
               (e) => DropdownMenuItem<String>(value: e.id, child: Text(e.name)))
