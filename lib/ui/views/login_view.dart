@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/login_view_model.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
@@ -80,20 +82,22 @@ class _MobileView extends StatelessWidget {
                       SizedBox(
                         height: devSize.height * 0.02,
                       ),
-                      TextFormField(
-                        onFieldSubmitted: (text) => model.signIn(),
-                        textInputAction: TextInputAction.done,
-                        style: textFieldInputFont,
-                        keyboardType: TextInputType.visiblePassword,
-                        onChanged: (text) => model.onFieldChange(
-                            data: text, type: FieldType.PASSWORD1),
-                        controller: model.password1Controller,
-                        validator: (text) => model.validator(
-                            type: FieldType.PASSWORD1, data: text),
-                        obscureText: true,
-                        decoration:
-                            InputDecoration(hintText: model.passwordHintext),
-                      ),
+                      Consumer<UserDetailsProvider>(builder: (_, provider, __) {
+                        return TextFormField(
+                          onFieldSubmitted: (text) => model.signIn(provider),
+                          textInputAction: TextInputAction.done,
+                          style: textFieldInputFont,
+                          keyboardType: TextInputType.visiblePassword,
+                          onChanged: (text) => model.onFieldChange(
+                              data: text, type: FieldType.PASSWORD1),
+                          controller: model.password1Controller,
+                          validator: (text) => model.validator(
+                              type: FieldType.PASSWORD1, data: text),
+                          obscureText: true,
+                          decoration:
+                              InputDecoration(hintText: model.passwordHintext),
+                        );
+                      }),
                       SizedBox(
                         height: devSize.height * 0.02,
                       ),
@@ -109,11 +113,13 @@ class _MobileView extends StatelessWidget {
                       SizedBox(
                         height: devSize.height * 0.1,
                       ),
-                      AuthBusyBtn(
-                        model.signText,
-                        onPressed: model.signIn,
-                        isBusy: model.isBusy,
-                      ),
+                      Consumer<UserDetailsProvider>(builder: (_, provider, __) {
+                        return AuthBusyBtn(
+                          model.signText,
+                          onPressed: () => model.signIn(provider),
+                          isBusy: model.isBusy,
+                        );
+                      }),
                       SizedBox(
                         height: devSize.height * 0.06,
                       ),

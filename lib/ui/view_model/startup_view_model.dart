@@ -2,17 +2,32 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
+import 'package:votex/models/hiveUserDetails_model.dart';
+import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/services/auth_services.dart';
+import 'package:votex/services/local_caching_services.dart';
 
 class StartUpViewModel extends BaseViewModel {
   NavigationService _navigationService = locator<NavigationService>();
   AuthServices _authServices = locator<AuthServices>();
-  void init(StartUpViewModel model) async {
+  LocalCachingSevices _localCachingSevices = locator<LocalCachingSevices>();
+
+  void init(StartUpViewModel model, UserDetailsProvider provider) async {
     var user = this._authServices.currentUser;
+    var userDetails = this._localCachingSevices.getcachedUserDetails();
     if (user != null) {
-      _navigationService.replaceWith(Routes.homeView);
+      if (userDetails != null) {
+        //set store here
+        provider.userDetails = userDetails as HiveUserDetails;
+        //navigate to home route
+        await _navigationService.replaceWith(Routes.homeView);
+        return;
+      }
+
+      //means user needs to update his profile
+      await _navigationService.replaceWith(Routes.completeRegistrationView);
       return;
     }
-    _navigationService.replaceWith(Routes.loginView);
+    await _navigationService.replaceWith(Routes.loginView);
   }
 }

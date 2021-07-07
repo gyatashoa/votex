@@ -9,5 +9,5 @@ class UserDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  HiveUserDetails get hiveUserDetails => this._userDetails;
+  HiveUserDetails get userDetails => this._userDetails;
 }
