@@ -11,6 +11,15 @@ class DiscoverViewModel extends StreamViewModel<List<VotingModel>> {
   String get title => 'Discover';
   final _navigator = locator<NavigationService>();
 
+  void onInit(DiscoverViewModel model) async {
+    setBusy(true);
+
+    //mock data loading
+    await new Timer(Duration(seconds: 5), () {
+      setBusy(false);
+    });
+  }
+
   List<VotingModel> _list = [
     VotingModel('Src President', PollStatus.ONGOING, <String>[
       'Micheal Abuah Yeboah',
