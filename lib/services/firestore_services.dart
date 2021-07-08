@@ -3,6 +3,7 @@ import 'package:votex/app/app.locator.dart';
 import 'package:votex/models/UserDetails_model.dart';
 import 'package:votex/models/college_model.dart';
 import 'package:votex/models/department_model.dart';
+import 'package:votex/models/hiveUserDetails_model.dart';
 import 'package:votex/services/auth_services.dart';
 
 class FirestoreServices {
@@ -26,10 +27,11 @@ class FirestoreServices {
       var collection = _instance.collection(t.toString());
       var snapshot =
           await collection.where("id", isEqualTo: auth.currentUser!.uid).get();
-      var doc = snapshot.docs[0];
-      if (doc != null) {
-        return UserDetails.fromJson(doc.data());
+      var doc = snapshot.docs.first;
+      if (doc == null) {
+        return null;
       }
+      return UserDetails.fromJson(doc.data(), auth.currentUser!);
     } catch (e) {
       return e;
     }
@@ -55,6 +57,33 @@ class FirestoreServices {
       return cleanedData;
     } catch (e) {
       print(e);
+      return e;
+    }
+  }
+
+  Future getHiveUserDetails() async {
+    try {
+      UserDetails userdetails = await getUserDetails(UserDetails);
+      List<College> cols = await getColleges();
+      List<Department> deps = await getDepartments();
+      late Department userDepartment;
+      late College userCollege;
+
+      deps.forEach((element) {
+        if (element.id == userdetails.departmentId) userDepartment = element;
+      });
+
+      cols.forEach((element) {
+        if (element.id == userdetails.collegeId) userCollege = element;
+      });
+
+      return HiveUserDetails()
+        ..collegeId = userCollege.id
+        ..collegeName = userCollege.name
+        ..departmentId = userDepartment.id
+        ..departmentName = userDepartment.name
+        ..dob = userdetails.dob;
+    } catch (e) {
       return e;
     }
   }

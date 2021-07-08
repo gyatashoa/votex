@@ -8,8 +8,8 @@ class UserDetails {
 
   UserDetails(this.user, this.collegeId, this.departmentId, this.dob);
 
-  UserDetails.fromJson(Map<String, dynamic> data)
-      : this.user = data['id']!,
+  UserDetails.fromJson(Map<String, dynamic> data, User currentUser)
+      : this.user = currentUser,
         this.collegeId = data['collegeId']!,
         this.departmentId = data['departmentId'],
         this.dob = DateTime.fromMillisecondsSinceEpoch((data['dob']));

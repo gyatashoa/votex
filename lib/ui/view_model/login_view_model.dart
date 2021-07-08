@@ -9,7 +9,6 @@ import 'package:votex/services/auth_services.dart';
 import 'package:votex/services/firestore_services.dart';
 import 'package:votex/services/local_caching_services.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
-import 'package:votex/utils/firestore_helpers.dart';
 
 class LoginViewModel extends MainFormModel {
   String headLine = 'Hello \nThere';
@@ -31,6 +30,7 @@ class LoginViewModel extends MainFormModel {
   DialogService _dialogService = locator<DialogService>();
   AuthServices _authService = locator<AuthServices>();
   LocalCachingSevices _cachingSevices = locator<LocalCachingSevices>();
+  FirestoreServices _firestoreServices = locator<FirestoreServices>();
 
   void forgotPassword() {}
   void signIn(UserDetailsProvider provider) async {
@@ -39,34 +39,35 @@ class LoginViewModel extends MainFormModel {
       var result =
           await _authService.signIn(data['email']!, data['password1']!);
 
-      //get details from firebase
-      HiveUserDetails user = await FirestoreHelpers.getHiveUserDetails();
-
-      //cache details
-      await _cachingSevices.cacheUserDetails(user);
-
-      //set user details store
-      provider.userDetails = user;
-
-      setBusy(false);
       if (result is bool) {
         if (result) {
-          if (user == null) {
-            //redirect user to complete registration view
+          //get details from firebase
+          var res = await _firestoreServices.getHiveUserDetails();
+
+          if (res is HiveUserDetails) {
+            //cached data
+            await _cachingSevices.cacheUserDetails(res);
+
+            //set to provider
+            provider.userDetails = res;
+            setBusy(false);
+            await _navigationService.replaceWith(Routes.homeView);
+          } else {
+            setBusy(false);
             await _navigationService
                 .replaceWith(Routes.completeRegistrationView);
-            return;
           }
-          await _navigationService.replaceWith(Routes.homeView);
         } else {
+          setBusy(false);
           await _dialogService.showDialog(
-            title: 'Sign Up Failure',
-            description: 'General sign up failure. Please try again later',
+            title: 'Sign In Failure',
+            description: 'General sign in failure. Please try again later',
           );
         }
       } else {
+        setBusy(false);
         await _dialogService.showDialog(
-          title: 'Sign Up Failure',
+          title: 'Sign In Failure',
           description: result.message,
         );
       }
