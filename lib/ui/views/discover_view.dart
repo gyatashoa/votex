@@ -14,17 +14,22 @@ class DiscoverView extends StatelessWidget {
             .addPostFrameCallback((_) => model.onInit(model)),
         builder: (context, model, widget) {
           if (model.isBusy) return LoadingShimmer();
+          //TODO: Will return an error widget here
+          if (model.hasError) return Container();
+          //TODO: Will return empty number of voting cards here
+          if (model.data!.size == 0) return Container();
           return Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
-                  children: model.data!
+                  children: model
+                      .convert(model.data!.docs)
                       .map((e) => Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: devSize.width * .07),
                             child: InkWell(
-                                onTap: () => model.navigateToDetail(e),
+                                // onTap: () => model.navigateToDetail(),
                                 child: CustomVCards(model: e)),
                           ))
                       .toList()),

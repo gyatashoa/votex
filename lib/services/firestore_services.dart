@@ -61,6 +61,10 @@ class FirestoreServices {
     }
   }
 
+  Stream<DocumentSnapshot> getVotingDataModel(Type t) {
+    return this._instance.collection(t.toString()).doc().snapshots();
+  }
+
   Future getHiveUserDetails() async {
     try {
       UserDetails userdetails = await getUserDetails(UserDetails);

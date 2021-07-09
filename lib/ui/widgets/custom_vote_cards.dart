@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/models/voting_model.dart';
 import 'package:votex/theme/fonts.dart';
 
 class CustomVCards extends StatelessWidget {
-  final VotingModel? model;
+  final VotingDataModel? model;
 
   const CustomVCards({Key? key, @required this.model}) : super(key: key);
 
@@ -12,15 +13,19 @@ class CustomVCards extends StatelessWidget {
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
     late String statusText;
-    switch (this.model!.status) {
-      case PollStatus.COMPLETED:
-        statusText = 'Completed';
-        break;
-      case PollStatus.ONGOING:
-        statusText = 'Ongoing';
-        break;
-      default:
-        statusText = 'Not Started';
+    bool hasEnded = DateTime.now().isAfter(this.model!.endTime!);
+    bool hasNotStarted = DateTime.now().isBefore(this.model!.startTime!);
+
+    if (hasNotStarted) {
+      statusText = "Not Started";
+    }
+
+    if (!hasNotStarted && !hasNotStarted) {
+      statusText = "Ongoing";
+    }
+
+    if (hasEnded) {
+      statusText = "Completed";
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -30,7 +35,7 @@ class CustomVCards extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    this.model!.pollTitle,
+                    this.model!.title!,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
@@ -53,18 +58,15 @@ class CustomVCards extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: this
                               .model!
-                              .contestants
-                              .asMap()
-                              .entries
-                              .map((e) => _nameLabel(
-                                  e.value, this.model!.tags![e.key], context))
+                              .contestants!
+                              .map((e) => _nameLabel(e.name!, context))
                               .toList(),
                         ),
                       ),
                       Container(
                           height: devSize.height * .15,
                           width: devSize.width * .31,
-                          child: _chart(this.model!))
+                          child: _chart(this.model!.contestants!))
                     ],
                   )
                 ],
@@ -85,7 +87,9 @@ class CustomVCards extends StatelessWidget {
   }
 }
 
-Widget _nameLabel(String name, Color color, BuildContext context) => Row(
+Widget _nameLabel(String name, BuildContext context,
+        [Color color = Colors.red]) =>
+    Row(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -108,19 +112,16 @@ Widget _nameLabel(String name, Color color, BuildContext context) => Row(
       ],
     );
 
-PieChart _chart(VotingModel model) {
-  const image = 'assets/images/user_c.jpg';
-
+PieChart _chart(List<Contestant> contestants) {
   return PieChart(PieChartData(
-      sections: model.values
-          .asMap()
-          .entries
+      sections: contestants
           .map((e) => PieChartSectionData(
-              badgeWidget: _badgeWidget(image),
+              badgeWidget:
+                  e.imagePath != null ? _badgeWidget(e.imagePath!) : null,
               badgePositionPercentageOffset: .90,
-              color: model.tags![e.key],
+              color: Colors.red,
               showTitle: false,
-              value: e.value))
+              value: e.votes!.length.toDouble()))
           .toList(),
       sectionsSpace: 0,
       centerSpaceRadius: 15));
@@ -139,7 +140,7 @@ Widget _badgeWidget(String image) => Container(
                 spreadRadius: 2)
           ],
           image: DecorationImage(
-              image: AssetImage(
+              image: NetworkImage(
                 image,
               ),
               fit: BoxFit.fitHeight)),
