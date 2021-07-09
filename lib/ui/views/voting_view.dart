@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/models/voting_model.dart';
-import 'package:votex/theme/color_palete.dart';
+import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_view_model.dart';
 
 class VotingView extends StatelessWidget {
-  final VotingModel dataModel;
+  final VotingDataModel dataModel;
   const VotingView(this.dataModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<VotingViewModel>.reactive(
-        onModelReady: (model) => model.onInit(dataModel),
+        // onModelReady: (model) => model.onInit(dataModel),
         builder: (_, model, widget) {
           return ResponsiveBuilder(builder: (_, info) {
             if (info.isMobile) return _MobileView(dataModel, model);
@@ -25,7 +26,7 @@ class VotingView extends StatelessWidget {
 }
 
 class _MobileView extends StatelessWidget {
-  final VotingModel dataModel;
+  final VotingDataModel dataModel;
   final VotingViewModel model;
   const _MobileView(this.dataModel, this.model, {Key? key}) : super(key: key);
 
@@ -42,7 +43,7 @@ class _MobileView extends StatelessWidget {
                   )),
               elevation: 4,
               title: Text(
-                this.dataModel.pollTitle,
+                this.dataModel.title!,
                 style: Theme.of(context).textTheme.headline3,
               ),
             ),
@@ -60,7 +61,7 @@ class _MobileView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: this
                                 .dataModel
-                                .contestants
+                                .contestants!
                                 .asMap()
                                 .entries
                                 .map((e) => RadioListTile<int>(
@@ -73,14 +74,15 @@ class _MobileView extends StatelessWidget {
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/images/user_c.jpg'),
+                                                  //TODO: will have to cater for null imagePath
+                                                  image: NetworkImage(
+                                                      e.value.imagePath!),
                                                   fit: BoxFit.cover)),
                                         ),
                                         SizedBox(
                                           width: 20,
                                         ),
-                                        Text(e.value)
+                                        Text(e.value.name!)
                                       ],
                                     ),
                                     groupValue: model.state,
@@ -93,6 +95,7 @@ class _MobileView extends StatelessWidget {
                         child: Container(
                           width: double.infinity,
                           child: TextButton(
+                              style: btnGreen.style,
                               onPressed:
                                   model.state == -1 ? null : model.onSubmit,
                               child: Text(

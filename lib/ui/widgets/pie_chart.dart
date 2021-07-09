@@ -1,23 +1,27 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:votex/models/voting_model.dart';
+import 'package:votex/models/voting_data_model.dart';
 
 class PieChartWidget extends StatelessWidget {
-  final VotingModel? model;
-  const PieChartWidget({@required this.model, Key? key}) : super(key: key);
+  final VotingDataModel? model;
+  final int? numberOfVoters;
+  const PieChartWidget(
+      {@required this.model, @required this.numberOfVoters, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PieChart(PieChartData(
-        sections: model!.values
-            .asMap()
-            .entries
+        sections: model!.contestants!
             .map((e) => PieChartSectionData(
-                title: '${e.value.round()}%',
+                title: numberOfVoters == 0
+                    ? '0%'
+                    : '${(e.votes!.length.toDouble() / numberOfVoters!.toDouble()).toStringAsFixed(2) * 100}%',
                 badgePositionPercentageOffset: .90,
-                color: model!.tags![e.key],
+                //TODO: Will have to implement color tag here
+                color: Colors.red,
                 showTitle: true,
-                value: e.value))
+                value: e.votes!.length.toDouble()))
             .toList(),
         sectionsSpace: 0,
         centerSpaceRadius: 60));

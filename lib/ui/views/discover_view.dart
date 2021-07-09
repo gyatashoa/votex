@@ -29,7 +29,7 @@ class DiscoverView extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: devSize.width * .07),
                             child: InkWell(
-                                // onTap: () => model.navigateToDetail(),
+                                onTap: () => model.navigateToDetail(e),
                                 child: CustomVCards(model: e)),
                           ))
                       .toList()),

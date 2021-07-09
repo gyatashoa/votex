@@ -139,7 +139,7 @@ class DiscoverViewModel
   //   ]),
   // ];
 
-  void navigateToDetail(VotingModel model) {
+  void navigateToDetail(VotingDataModel model) {
     this._navigator.navigateTo(Routes.votingDetailView,
         arguments: VotingDetailViewArguments(dataModel: model));
   }

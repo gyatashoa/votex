@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../models/voting_model.dart';
+import '../models/voting_data_model.dart';
 import '../ui/views/complete_registration_view.dart';
 import '../ui/views/home_view.dart';
 import '../ui/views/login_view.dart';
@@ -121,14 +121,14 @@ class StackedRouter extends RouterBase {
 
 /// VotingDetailView arguments holder class
 class VotingDetailViewArguments {
-  final VotingModel dataModel;
+  final VotingDataModel dataModel;
   final Key? key;
   VotingDetailViewArguments({required this.dataModel, this.key});
 }
 
 /// VotingView arguments holder class
 class VotingViewArguments {
-  final VotingModel dataModel;
+  final VotingDataModel dataModel;
   final Key? key;
   VotingViewArguments({required this.dataModel, this.key});
 }

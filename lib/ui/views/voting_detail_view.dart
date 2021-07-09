@@ -1,15 +1,16 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/models/voting_model.dart';
+import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
 import 'package:votex/ui/widgets/pie_chart.dart';
 
 class VotingDetailView extends StatelessWidget {
-  final VotingModel dataModel;
+  final VotingDataModel dataModel;
   const VotingDetailView(this.dataModel, {Key? key}) : super(key: key);
 
   @override
@@ -27,12 +28,18 @@ class VotingDetailView extends StatelessWidget {
 
 class _MobileView extends StatelessWidget {
   final VotingDetailViewModel model;
-  final VotingModel data;
+  final VotingDataModel data;
   const _MobileView(this.model, this.data, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool hasEnded = DateTime.now().isAfter(this.data.endTime!);
+    bool hasNotStarted = DateTime.now().isBefore(this.data.startTime!);
     final devSize = MediaQuery.of(context).size;
+    int numberOfVoters = 0;
+    this.data.contestants!.forEach((element) {
+      numberOfVoters += element.votes!.length;
+    });
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -44,11 +51,11 @@ class _MobileView extends StatelessWidget {
               )),
           elevation: 4,
           title: Text(
-            this.data.pollTitle,
+            this.data.title!,
             style: Theme.of(context).textTheme.headline3,
           ),
           actions: [
-            this.data.status == PollStatus.ONGOING
+            (!hasNotStarted && !hasEnded)
                 ? AvatarGlow(
                     showTwoGlows: true,
                     duration: Duration(milliseconds: 2000),
@@ -72,22 +79,23 @@ class _MobileView extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 40),
-                      height: 200,
-                      child: PieChartWidget(
-                        model: this.data,
-                      ),
-                    ),
+                    numberOfVoters == 0
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.only(top: 40),
+                            height: 200,
+                            child: PieChartWidget(
+                              model: this.data,
+                              numberOfVoters: numberOfVoters,
+                            ),
+                          ),
                     SizedBox(
                       height: 30,
                     ),
                     Column(
                       children: this
                           .data
-                          .contestants
-                          .asMap()
-                          .entries
+                          .contestants!
                           .map((e) => ListTile(
                                 leading: Container(
                                   height: 55,
@@ -96,24 +104,27 @@ class _MobileView extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/user_c.jpg'))),
+                                          //TODO: Will write a case to cater for null imagePaths
+                                          image: NetworkImage(e.imagePath!))),
                                 ),
                                 title: Text(
-                                  e.value,
+                                  e.name!,
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 subtitle: Text(
-                                  '12,556 votes',
+                                  '${e.votes!.length} votes',
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                                 trailing: CircleAvatar(
                                   radius: 18,
                                   child: Text(
-                                    '${this.data.values[e.key]}%',
+                                    numberOfVoters == 0
+                                        ? "0%"
+                                        : '${(e.votes!.length.toDouble() / numberOfVoters.toDouble()).toStringAsFixed(2) * 100}%',
                                     style: smallWhiteText,
                                   ),
-                                  backgroundColor: this.data.tags![e.key],
+                                  //TODO: Will also have to implement the color tag here
+                                  backgroundColor: Colors.red,
                                 ),
                               ))
                           .toList(),
@@ -122,7 +133,7 @@ class _MobileView extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      'Total Votes: 28,685',
+                      'Total Votes: $numberOfVoters',
                       style: boldBlackMediumText,
                     )
                   ],
@@ -135,6 +146,7 @@ class _MobileView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         horizontal: devSize.width * .095, vertical: 40),
                     child: TextButton(
+                      style: btnGreen.style,
                       onPressed: () => model.onVotePressed(data),
                       child: Text(
                         'VOTE',
