@@ -14,6 +14,7 @@ import '../services/auth_services.dart';
 import '../services/date_services.dart';
 import '../services/firestore_services.dart';
 import '../services/local_caching_services.dart';
+import '../services/voting_services.dart';
 
 final locator = StackedLocator.instance;
 
@@ -30,4 +31,5 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => DateServices());
   locator.registerLazySingleton(() => FirestoreServices());
   locator.registerLazySingleton(() => LocalCachingSevices());
+  locator.registerLazySingleton(() => VotingServices());
 }

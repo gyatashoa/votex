@@ -157,6 +157,8 @@ class DiscoverViewModel
 
   List<VotingDataModel> convert(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> data) {
-    return data.map((e) => VotingDataModel.fromJson(e.data())).toList();
+    return data
+        .map((e) => VotingDataModel.fromJson({...e.data(), "id": e.id}))
+        .toList();
   }
 }

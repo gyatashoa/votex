@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:votex/models/voting_data_model.dart';
-import 'package:votex/models/voting_model.dart';
 import 'package:votex/theme/fonts.dart';
+import 'package:votex/utils/color_tags.dart';
 
 class CustomVCards extends StatelessWidget {
   final VotingDataModel? model;
@@ -59,7 +59,10 @@ class CustomVCards extends StatelessWidget {
                           children: this
                               .model!
                               .contestants!
-                              .map((e) => _nameLabel(e.name!, context))
+                              .asMap()
+                              .entries
+                              .map((e) => _nameLabel(
+                                  e.value.name!, context, colorTags[e.key]))
                               .toList(),
                         ),
                       ),
@@ -87,9 +90,7 @@ class CustomVCards extends StatelessWidget {
   }
 }
 
-Widget _nameLabel(String name, BuildContext context,
-        [Color color = Colors.red]) =>
-    Row(
+Widget _nameLabel(String name, BuildContext context, Color? color) => Row(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -115,13 +116,16 @@ Widget _nameLabel(String name, BuildContext context,
 PieChart _chart(List<Contestant> contestants) {
   return PieChart(PieChartData(
       sections: contestants
+          .asMap()
+          .entries
           .map((e) => PieChartSectionData(
-              badgeWidget:
-                  e.imagePath != null ? _badgeWidget(e.imagePath!) : null,
+              badgeWidget: e.value.imagePath != null
+                  ? _badgeWidget(e.value.imagePath!)
+                  : null,
               badgePositionPercentageOffset: .90,
-              color: Colors.red,
+              color: colorTags[e.key],
               showTitle: false,
-              value: e.votes!.length.toDouble()))
+              value: e.value.votes!.length.toDouble()))
           .toList(),
       sectionsSpace: 0,
       centerSpaceRadius: 15));

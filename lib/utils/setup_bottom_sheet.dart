@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
+import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 
 void setupBottomSheetUi() {
@@ -8,7 +9,11 @@ void setupBottomSheetUi() {
 
   final builders = {
     BottomSheetType.floating: (context, sheetRequest, completer) =>
-        _FloatingBoxBottomSheet(request: sheetRequest, completer: completer)
+        _FloatingBoxBottomSheet(
+          request: sheetRequest,
+          completer: completer,
+          controller: TextEditingController(),
+        )
   };
 
   bottomSheetService.setCustomSheetBuilders(builders);
@@ -21,11 +26,10 @@ enum BottomSheetType {
 class _FloatingBoxBottomSheet extends StatelessWidget {
   final SheetRequest? request;
   final Function(SheetResponse)? completer;
-  const _FloatingBoxBottomSheet({
-    Key? key,
-    this.request,
-    this.completer,
-  }) : super(key: key);
+  final TextEditingController? controller;
+  const _FloatingBoxBottomSheet(
+      {Key? key, this.request, this.completer, @required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,7 @@ class _FloatingBoxBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
+            controller: this.controller,
             decoration: InputDecoration(
                 hintText: 'Enter your password here to confirm'),
           ),
@@ -47,8 +52,9 @@ class _FloatingBoxBottomSheet extends StatelessWidget {
             height: 20,
           ),
           TextButton(
-              onPressed: () =>
-                  this.completer!(SheetResponse(responseData: 'confirm')),
+              style: btnGreen.style,
+              onPressed: () => this.completer!(
+                  SheetResponse(responseData: this.controller!.text)),
               child: Text(
                 'Confirm',
                 style: whiteBtnText,

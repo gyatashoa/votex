@@ -96,8 +96,8 @@ class _MobileView extends StatelessWidget {
                           width: double.infinity,
                           child: TextButton(
                               style: btnGreen.style,
-                              onPressed:
-                                  model.state == -1 ? null : model.onSubmit,
+                              onPressed: () =>
+                                  model.onSubmit(this.dataModel, context),
                               child: Text(
                                 model.submitText,
                                 style: whiteBtnText,

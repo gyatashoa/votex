@@ -8,6 +8,7 @@ import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
 import 'package:votex/ui/widgets/pie_chart.dart';
+import 'package:votex/utils/color_tags.dart';
 
 class VotingDetailView extends StatelessWidget {
   final VotingDataModel dataModel;
@@ -79,6 +80,9 @@ class _MobileView extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     numberOfVoters == 0
                         ? Container()
                         : Container(
@@ -90,12 +94,14 @@ class _MobileView extends StatelessWidget {
                             ),
                           ),
                     SizedBox(
-                      height: 30,
+                      height: 50,
                     ),
                     Column(
                       children: this
                           .data
                           .contestants!
+                          .asMap()
+                          .entries
                           .map((e) => ListTile(
                                 leading: Container(
                                   height: 55,
@@ -105,27 +111,26 @@ class _MobileView extends StatelessWidget {
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
                                           //TODO: Will write a case to cater for null imagePaths
-                                          image: NetworkImage(e.imagePath!))),
+                                          image: NetworkImage(
+                                              e.value.imagePath!))),
                                 ),
                                 title: Text(
-                                  e.name!,
+                                  e.value.name!,
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 subtitle: Text(
-                                  '${e.votes!.length} votes',
+                                  '${e.value.votes!.length} votes',
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                                 trailing: CircleAvatar(
-                                  radius: 18,
-                                  child: Text(
-                                    numberOfVoters == 0
-                                        ? "0%"
-                                        : '${(e.votes!.length.toDouble() / numberOfVoters.toDouble()).toStringAsFixed(2) * 100}%',
-                                    style: smallWhiteText,
-                                  ),
-                                  //TODO: Will also have to implement the color tag here
-                                  backgroundColor: Colors.red,
-                                ),
+                                    radius: 18,
+                                    child: Text(
+                                      numberOfVoters == 0
+                                          ? "0%"
+                                          : '${(e.value.votes!.length * 100) / numberOfVoters}%',
+                                      style: smallWhiteText,
+                                    ),
+                                    backgroundColor: colorTags[e.key]),
                               ))
                           .toList(),
                     ),
@@ -147,7 +152,7 @@ class _MobileView extends StatelessWidget {
                         horizontal: devSize.width * .095, vertical: 40),
                     child: TextButton(
                       style: btnGreen.style,
-                      onPressed: () => model.onVotePressed(data),
+                      onPressed: () => model.onVotePressed(data, context),
                       child: Text(
                         'VOTE',
                         style: whiteBtnText,
