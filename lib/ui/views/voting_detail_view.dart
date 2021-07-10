@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/models/voting_data_model.dart';
-import 'package:votex/models/voting_model.dart';
 import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
@@ -16,11 +15,18 @@ class VotingDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<VotingDetailViewModel>.nonReactive(
+    return ViewModelBuilder<VotingDetailViewModel>.reactive(
         builder: (ctx, model, widget) {
+          //TODO Will implement loading indicator
+          if (model.isBusy) return CircularProgressIndicator();
+          //TODO will show an error
+          if (model.hasError) return Container();
+          //TODO: No data to display
+          if (model.data!.data()!.isEmpty) return Container();
           return ResponsiveBuilder(builder: (_, info) {
-            if (info.isMobile) return _MobileView(model, dataModel);
-            return _MobileView(model, dataModel);
+            if (info.isMobile)
+              return _MobileView(model, model.convertData(model.data!));
+            return _MobileView(model, model.convertData(model.data!));
           });
         },
         viewModelBuilder: () => VotingDetailViewModel());

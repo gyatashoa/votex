@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -6,12 +9,22 @@ import 'package:votex/app/app.router.dart';
 import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/services/voting_services.dart';
 
-class VotingDetailViewModel extends BaseViewModel {
+class VotingDetailViewModel
+    extends StreamViewModel<DocumentSnapshot<Map<String, dynamic>>> {
   final _navigator = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
   final _votingServices = locator<VotingServices>();
+  late VotingDataModel _dataModel;
 
   void goBack() => _navigator.back();
+
+  void onInit(VotingDataModel dataModel) {
+    this._dataModel = dataModel;
+  }
+
+  VotingDataModel convertData(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return VotingDataModel.fromJson(snapshot.data()!);
+  }
 
   void onVotePressed(VotingDataModel model, BuildContext context) async {
     var status = _votingServices.canVote(model, context);
@@ -31,4 +44,14 @@ class VotingDetailViewModel extends BaseViewModel {
       return;
     }
   }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getVotingDataModel(
+      Type t, String id) {
+    final _instance = FirebaseFirestore.instance;
+    return _instance.collection(t.toString()).doc(id).snapshots();
+  }
+
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> get stream =>
+      getVotingDataModel(VotingDataModel, this._dataModel.id!);
 }
