@@ -6,6 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
 import 'package:votex/models/hiveUserDetails_model.dart';
+import 'package:votex/providers/current_voting_model_provider.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/theme/theme.dart';
 import 'package:votex/utils/appsettings.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserDetailsProvider>(
-            create: (_) => UserDetailsProvider())
+            create: (_) => UserDetailsProvider()),
       ],
       child: MaterialApp(
         title: appTitle,

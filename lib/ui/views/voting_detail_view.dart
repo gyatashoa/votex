@@ -1,4 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -17,17 +18,25 @@ class VotingDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<VotingDetailViewModel>.reactive(
         builder: (ctx, model, widget) {
-          //TODO Will implement loading indicator
-          if (model.isBusy) return CircularProgressIndicator();
-          //TODO will show an error
-          if (model.hasError) return Container();
-          //TODO: No data to display
-          if (model.data!.data()!.isEmpty) return Container();
-          return ResponsiveBuilder(builder: (_, info) {
-            if (info.isMobile)
-              return _MobileView(model, model.convertData(model.data!));
-            return _MobileView(model, model.convertData(model.data!));
-          });
+          return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              stream: model.getVotingDataModel(VotingDataModel, dataModel.id!),
+              builder: (_,
+                  AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                      snapshot) {
+                //TODO Will implement loading indicator
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return CircularProgressIndicator();
+                //TODO will show an error
+                if (snapshot.hasError) return Container();
+                //TODO Unable to load data
+                if (!snapshot.hasData) return Container();
+                return ResponsiveBuilder(builder: (_, info) {
+                  if (info.isMobile)
+                    return _MobileView(
+                        model, model.convertData(snapshot.data!));
+                  return _MobileView(model, model.convertData(snapshot.data!));
+                });
+              });
         },
         viewModelBuilder: () => VotingDetailViewModel());
   }
@@ -133,7 +142,7 @@ class _MobileView extends StatelessWidget {
                                     child: Text(
                                       numberOfVoters == 0
                                           ? "0%"
-                                          : '${(e.value.votes!.length * 100) / numberOfVoters}%',
+                                          : '${((e.value.votes!.length * 100) / numberOfVoters).roundToDouble()}%',
                                       style: smallWhiteText,
                                     ),
                                     backgroundColor: colorTags[e.key]),
