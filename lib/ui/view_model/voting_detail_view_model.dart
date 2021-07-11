@@ -15,7 +15,7 @@ class VotingDetailViewModel extends BaseViewModel {
   void goBack() => _navigator.back();
 
   VotingDataModel convertData(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return VotingDataModel.fromJson(snapshot.data()!);
+    return VotingDataModel.fromJson({...snapshot.data()!, "id": snapshot.id});
   }
 
   void onVotePressed(VotingDataModel model, BuildContext context) async {

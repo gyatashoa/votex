@@ -76,6 +76,14 @@ class VotingViewModel extends BaseViewModel {
         setBusy(false);
         if (err != null)
           await _dialog.showDialog(title: 'Error', description: err.message);
+        else {
+          //meaning voting has been successfull
+          await _dialog.showDialog(
+              title: 'Success', description: 'Voting Successfull');
+          //navigate backwards
+          _navigator.back();
+          return;
+        }
       } else {
         setBusy(false);
         await _dialog.showDialog(
