@@ -29,8 +29,12 @@ class SubscriptionsView extends StatelessWidget {
                       //TODO: Will have to implement a ui for no subscriptions
                       child: Text("You have no Subscriptions"),
                     );
-                  return BuildVotingListTiles(value.getSubscriptions,
-                      model.navigateToVotingDetailsView);
+                  return BuildVotingListTiles(
+                    value.getSubscriptions,
+                    model.navigateToVotingDetailsView,
+                    swipeable: true,
+                    onDismiss: value.removeSubscription,
+                  );
                 }),
               )
             ],
