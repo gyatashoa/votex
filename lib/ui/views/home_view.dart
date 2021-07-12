@@ -8,6 +8,7 @@ import 'package:votex/ui/views/discover_view.dart';
 import 'package:votex/ui/views/profile_view.dart';
 import 'package:votex/ui/views/search_view.dart';
 import 'package:votex/ui/views/settings_view.dart';
+import 'package:votex/ui/views/subscription_view.dart';
 import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
 import 'package:votex/ui/widgets/fade_widget.dart';
 
@@ -41,15 +42,14 @@ class _MobileView extends StatelessWidget {
   final List<Widget> _tabViews = <Widget>[
     DiscoverView(),
     SearchView(),
-    Container(),
+    SubscriptionsView(),
     SettingsView(),
-    ProfileView(),
   ];
 
   final List<TabData> _tabs = <TabData>[
     TabData(iconData: Icons.explore_outlined, title: 'Discover'),
     TabData(iconData: Icons.search, title: 'Search'),
-    TabData(iconData: Icons.bar_chart_rounded, title: 'Results'),
+    TabData(iconData: Icons.notifications_active, title: 'Subscriptions'),
     TabData(iconData: Icons.settings_outlined, title: 'Settings'),
     // TabData(iconData: Icons.person_pin, title: 'Profile'),
   ];

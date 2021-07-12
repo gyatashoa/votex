@@ -8,6 +8,7 @@ import 'package:votex/app/app.router.dart';
 import 'package:votex/models/hiveUserDetails_model.dart';
 import 'package:votex/providers/current_voting_data_models.dart';
 import 'package:votex/providers/recent_voting_searches_provider.dart';
+import 'package:votex/providers/subscriptions_provider.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/theme/theme.dart';
 import 'package:votex/utils/appsettings.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CurrentVotingDataModelProvider()),
         ChangeNotifierProvider<UserDetailsProvider>(
             create: (_) => UserDetailsProvider()),
+        ChangeNotifierProvider(create: (_) => SubscriptionsProvider())
       ],
       child: MaterialApp(
         title: appTitle,

@@ -1,9 +1,11 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/models/voting_data_model.dart';
+import 'package:votex/providers/subscriptions_provider.dart';
 import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
@@ -84,7 +86,28 @@ class _MobileView extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                   )
+                //TODO: Will have to implement for other colors
                 : SizedBox.shrink(),
+            Consumer<SubscriptionsProvider>(builder: (_, value, __) {
+              bool isSubcribed = value.getSubscriptions
+                  .where((element) => this.data.id == element.id)
+                  .isNotEmpty;
+              return IconButton(
+                  onPressed: isSubcribed
+                      //TODO: Will have to implement caching subcriptions
+                      ? () {
+                          value.removeSubscription(data);
+                        }
+                      : () {
+                          value.subscriptions = data;
+                        },
+                  icon: Icon(
+                    isSubcribed
+                        ? Icons.notifications_off_rounded
+                        : Icons.notification_add,
+                    color: Colors.green,
+                  ));
+            })
           ],
         ),
         body: Container(
