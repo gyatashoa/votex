@@ -9,7 +9,7 @@ class SettingsView extends StatelessWidget {
 
   List<Map<String, dynamic>> _tiles = [
     {
-      'title': 'Edit Profile',
+      'title': 'Profile',
       'icon': Icons.person_pin,
       'navigateTo': PageToNavigateTo.PROFILE
     },

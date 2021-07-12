@@ -44,7 +44,8 @@ class VotingDetailViewModel extends BaseViewModel {
   }
 
   void navigateToAboutContestant(Contestant contestant) async {
-    await _navigator.navigateTo(Routes.aboutContestantView,
-        arguments: AboutContestantViewArguments(contestant: contestant));
+    await _navigator.navigateTo(Routes.profileView,
+        arguments:
+            ProfileViewArguments(isContestant: true, contestant: contestant));
   }
 }

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/voting_data_model.dart';
-import '../ui/views/about_contestant_view.dart';
 import '../ui/views/complete_registration_view.dart';
 import '../ui/views/home_view.dart';
 import '../ui/views/login_view.dart';
@@ -29,7 +28,6 @@ class Routes {
   static const String profileView = '/profile-view';
   static const String votingDetailView = '/voting-detail-view';
   static const String votingView = '/voting-view';
-  static const String aboutContestantView = '/about-contestant-view';
   static const all = <String>{
     startUpView,
     loginView,
@@ -39,7 +37,6 @@ class Routes {
     profileView,
     votingDetailView,
     votingView,
-    aboutContestantView,
   };
 }
 
@@ -55,7 +52,6 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.profileView, page: ProfileView),
     RouteDef(Routes.votingDetailView, page: VotingDetailView),
     RouteDef(Routes.votingView, page: VotingView),
-    RouteDef(Routes.aboutContestantView, page: AboutContestantView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -91,8 +87,15 @@ class StackedRouter extends RouterBase {
       );
     },
     ProfileView: (data) {
+      var args = data.getArgs<ProfileViewArguments>(
+        orElse: () => ProfileViewArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const ProfileView(),
+        builder: (context) => ProfileView(
+          key: args.key,
+          isContestant: args.isContestant,
+          contestant: args.contestant,
+        ),
         settings: data,
       );
     },
@@ -116,22 +119,20 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    AboutContestantView: (data) {
-      var args = data.getArgs<AboutContestantViewArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => AboutContestantView(
-          args.contestant,
-          key: args.key,
-        ),
-        settings: data,
-      );
-    },
   };
 }
 
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
+
+/// ProfileView arguments holder class
+class ProfileViewArguments {
+  final Key? key;
+  final bool isContestant;
+  final Contestant? contestant;
+  ProfileViewArguments({this.key, this.isContestant = false, this.contestant});
+}
 
 /// VotingDetailView arguments holder class
 class VotingDetailViewArguments {
@@ -145,11 +146,4 @@ class VotingViewArguments {
   final VotingDataModel dataModel;
   final Key? key;
   VotingViewArguments({required this.dataModel, this.key});
-}
-
-/// AboutContestantView arguments holder class
-class AboutContestantViewArguments {
-  final Contestant contestant;
-  final Key? key;
-  AboutContestantViewArguments({required this.contestant, this.key});
 }

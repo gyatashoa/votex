@@ -16,7 +16,8 @@ class SettingsViewModel extends BaseViewModel {
   void onTileTapped(PageToNavigateTo page, UserDetailsProvider provider) async {
     switch (page) {
       case PageToNavigateTo.PROFILE:
-        _navigator.navigateTo(Routes.profileView);
+        _navigator.navigateTo(Routes.profileView,
+            arguments: ProfileViewArguments(isContestant: false));
         break;
       case PageToNavigateTo.ABOUT_APP:
         break;

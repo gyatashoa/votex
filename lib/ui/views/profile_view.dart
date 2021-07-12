@@ -4,12 +4,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/ui/view_model/profile_view_model.dart';
 import 'package:votex/ui/widgets/fade_widget.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+  final bool isContestant;
+  final Contestant? contestant;
+  const ProfileView({Key? key, this.isContestant = false, this.contestant})
+      : super(key: key);
 
   Widget get space => SliverPadding(
         padding: EdgeInsets.only(top: 5),
@@ -20,11 +24,21 @@ class ProfileView extends StatelessWidget {
     UserDetailsProvider provider = Provider.of<UserDetailsProvider>(context);
     return ViewModelBuilder<ProfileViewModel>.nonReactive(
         onModelReady: (model) => SchedulerBinding.instance!
-            .addPostFrameCallback((_) => model.init(model, provider)),
+            .addPostFrameCallback((_) => model.init(model, provider,
+                isContestant: this.isContestant, contestant: this.contestant)),
         builder: (ctx, model, widget) {
           return ResponsiveBuilder(builder: (ctx, info) {
-            if (info.isMobile) return _MobileView(model);
-            return _MobileView(model);
+            if (info.isMobile)
+              return _MobileView(
+                model,
+                contestant: this.contestant,
+                isContestant: this.isContestant,
+              );
+            return _MobileView(
+              model,
+              contestant: this.contestant,
+              isContestant: this.isContestant,
+            );
           });
         },
         viewModelBuilder: () => ProfileViewModel());
@@ -33,7 +47,11 @@ class ProfileView extends StatelessWidget {
 
 class _MobileView extends StatelessWidget {
   final ProfileViewModel model;
-  const _MobileView(this.model, {Key? key}) : super(key: key);
+  final Contestant? contestant;
+  final bool isContestant;
+  const _MobileView(this.model,
+      {Key? key, this.isContestant = false, this.contestant})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,30 +81,42 @@ class _MobileView extends StatelessWidget {
                   scrollController: model.scrollController,
                   appBarHeight: devSize.height * .35,
                   child: Center(
-                    child: Container(
-                      height: 150,
-                      width: 150,
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(.16),
-                                spreadRadius: 5,
-                                blurRadius: 6,
-                                offset: Offset(3, 3))
-                          ], shape: BoxShape.circle, color: Colors.white),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.camera_alt_outlined)),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage('assets/images/user.jpg'),
-                              fit: BoxFit.fitHeight)),
-                    ),
+                    child: this.isContestant
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(75),
+                            child: Container(
+                              height: 150,
+                              width: 150,
+                              child: Image.network(
+                                this.contestant!.imagePath!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: 150,
+                            width: 150,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(.16),
+                                      spreadRadius: 5,
+                                      blurRadius: 6,
+                                      offset: Offset(3, 3))
+                                ], shape: BoxShape.circle, color: Colors.white),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.camera_alt_outlined)),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage('assets/images/user.jpg'),
+                                    fit: BoxFit.fitHeight)),
+                          ),
                   ),
                 ),
                 expandedHeight: devSize.height * .35,
@@ -96,21 +126,39 @@ class _MobileView extends StatelessWidget {
                 sliver: SliverFixedExtentList(
                   itemExtent: 75,
                   delegate: SliverChildListDelegate(
-                    [
-                      // space,
-                      _CustomTextFieldLabels(model.idController,
-                          isEditable: false, labelText: model.schoolIdText),
-                      _CustomTextFieldLabels(model.fullNameController,
-                          isEditable: false, labelText: model.fullNameText),
-                      _CustomTextFieldLabels(model.emailController,
-                          isEditable: false, labelText: model.emailText),
-                      _CustomTextFieldLabels(model.dateController,
-                          isEditable: false, labelText: model.dateText),
-                      _CustomTextFieldLabels(model.collegeController,
-                          isEditable: false, labelText: model.collegeText),
-                      _CustomTextFieldLabels(model.departmentController,
-                          isEditable: false, labelText: model.departmentText),
-                    ],
+                    this.isContestant
+                        ? [
+                            _CustomTextFieldLabels(model.fullNameController,
+                                isEditable: false,
+                                labelText: model.fullNameText),
+                            _CustomTextFieldLabels(model.hallOfAffiliation,
+                                isEditable: false, labelText: model.hallText),
+                            _CustomTextFieldLabels(model.collegeController,
+                                isEditable: false,
+                                labelText: model.collegeText),
+                            _CustomTextFieldLabels(model.departmentController,
+                                isEditable: false,
+                                labelText: model.departmentText),
+                          ]
+                        : [
+                            // space,
+                            _CustomTextFieldLabels(model.idController,
+                                isEditable: false,
+                                labelText: model.schoolIdText),
+                            _CustomTextFieldLabels(model.fullNameController,
+                                isEditable: false,
+                                labelText: model.fullNameText),
+                            _CustomTextFieldLabels(model.emailController,
+                                isEditable: false, labelText: model.emailText),
+                            _CustomTextFieldLabels(model.dateController,
+                                isEditable: false, labelText: model.dateText),
+                            _CustomTextFieldLabels(model.collegeController,
+                                isEditable: false,
+                                labelText: model.collegeText),
+                            _CustomTextFieldLabels(model.departmentController,
+                                isEditable: false,
+                                labelText: model.departmentText),
+                          ],
                   ),
                 ),
               ),
