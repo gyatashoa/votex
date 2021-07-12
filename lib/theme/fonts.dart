@@ -50,3 +50,9 @@ final TextStyle boldBlackMediumText = GoogleFonts.montserrat(
     fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600);
 
 final TextStyle whiteBtnText = GoogleFonts.montserrat(color: Colors.white);
+
+TextStyle deepenText =
+    GoogleFonts.montserrat(color: Colors.black, fontWeight: FontWeight.bold);
+
+TextStyle faintedText = GoogleFonts.montserrat(
+    color: Colors.black.withOpacity(.5), fontWeight: FontWeight.w500);

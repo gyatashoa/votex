@@ -42,4 +42,9 @@ class VotingDetailViewModel extends BaseViewModel {
     final _instance = FirebaseFirestore.instance;
     return _instance.collection(t.toString()).doc(id).snapshots();
   }
+
+  void navigateToAboutContestant(Contestant contestant) async {
+    await _navigator.navigateTo(Routes.aboutContestantView,
+        arguments: AboutContestantViewArguments(contestant: contestant));
+  }
 }

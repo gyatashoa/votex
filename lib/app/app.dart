@@ -5,6 +5,7 @@ import 'package:votex/services/date_services.dart';
 import 'package:votex/services/firestore_services.dart';
 import 'package:votex/services/local_caching_services.dart';
 import 'package:votex/services/voting_services.dart';
+import 'package:votex/ui/views/about_contestant_view.dart';
 import 'package:votex/ui/views/complete_registration_view.dart';
 import 'package:votex/ui/views/home_view.dart';
 import 'package:votex/ui/views/login_view.dart';
@@ -33,6 +34,7 @@ import 'package:votex/ui/views/voting_view.dart';
   MaterialRoute(
     page: VotingView,
   ),
+  MaterialRoute(page: AboutContestantView)
 ], dependencies: [
   LazySingleton(classType: NavigationService),
   LazySingleton(classType: DialogService),

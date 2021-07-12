@@ -4,12 +4,27 @@ import 'package:votex/models/UserDetails_model.dart';
 import 'package:votex/models/college_model.dart';
 import 'package:votex/models/department_model.dart';
 import 'package:votex/models/hiveUserDetails_model.dart';
+import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/services/auth_services.dart';
 
 class FirestoreServices {
   FirestoreServices();
 
   final _instance = FirebaseFirestore.instance;
+
+  Future<QuerySnapshot<VotingDataModel>>? searchForPolls(Type t) async {
+    try {
+      return await _instance
+          .collection(t.toString())
+          .withConverter<VotingDataModel>(
+              fromFirestore: (doc, _) =>
+                  VotingDataModel.fromJson({...doc.data()!, "id": doc.id}),
+              toFirestore: (data, _) => data.toJson())
+          .get();
+    } catch (e) {
+      throw new Exception(e);
+    }
+  }
 
   Future uploadData(Map<String, dynamic> data, Type t) async {
     try {

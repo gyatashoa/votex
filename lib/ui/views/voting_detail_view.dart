@@ -118,6 +118,8 @@ class _MobileView extends StatelessWidget {
                           .asMap()
                           .entries
                           .map((e) => ListTile(
+                                onTap: () =>
+                                    model.navigateToAboutContestant(e.value),
                                 leading: Container(
                                   height: 55,
                                   width: 55,

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/models/voting_data_model.dart';
+import 'package:votex/providers/current_voting_data_models.dart';
+import 'package:votex/providers/recent_voting_searches_provider.dart';
 import 'package:votex/theme/color_palete.dart';
+import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/search_view_model.dart';
+import 'package:votex/ui/widgets/voting_list_tiles.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -22,40 +29,65 @@ class SearchView extends StatelessWidget {
                     vertical: devSize.height * .025),
                 child: Column(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: SearchBarColor,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  onChanged: model.onValueChanged,
-                                  controller: model.searchController,
-                                  keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.search,
-                                  decoration: InputDecoration.collapsed(
-                                      hintStyle:
-                                          GoogleFonts.montserrat(fontSize: 17),
-                                      hintText: model.hintText),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.search),
-                                onPressed: model.searchController.text.isEmpty
-                                    ? null
-                                    : model.performSearch,
-                              )
-                            ],
+                    InkWell(
+                      onTap: () {
+                        showSearch<String>(
+                            context: context, delegate: _DataSearch(model));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: SearchBarColor,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  child: Text(
+                                    'Type Here...',
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black.withOpacity(.6)),
+                                  ),
+                                )),
+                                IconButton(
+                                  icon: Icon(Icons.search),
+                                  onPressed: () {
+                                    showSearch<String>(
+                                        context: context,
+                                        delegate: _DataSearch(model));
+                                  },
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Recent Searches",
+                      style: GoogleFonts.montserrat(color: Colors.black),
+                    ),
+                    Divider(
+                      color: Colors.black.withOpacity(.4),
+                    ),
+                    Expanded(child: Consumer<RecentVotingSearchesProvider>(
+                      builder: (BuildContext context, value, Widget? child) {
+                        if (value.recentSearches.isEmpty)
+                          return Center(
+                            child: Text("No Recent Searches"),
+                          );
+                        return BuildVotingListTiles(value.recentSearches,
+                            model.navigateToVotingDetails);
+                      },
+                    ))
                   ],
                 ),
               ),
@@ -63,5 +95,60 @@ class SearchView extends StatelessWidget {
           );
         },
         viewModelBuilder: () => SearchViewModel());
+  }
+}
+
+class _DataSearch extends SearchDelegate<String> {
+  final SearchViewModel model;
+  _DataSearch(this.model)
+      : super(
+            keyboardType: TextInputType.text, searchFieldLabel: 'Type here...');
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = "";
+          },
+          icon: Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+      onPressed: model.pop,
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final provider = Provider.of<CurrentVotingDataModelProvider>(context);
+    final recentSearches =
+        Provider.of<RecentVotingSearchesProvider>(context, listen: false);
+    final data = provider.currentVotingDataModel
+        .where((element) => element.title!.startsWith(query.toUpperCase()))
+        .toList();
+    data.forEach((element) {
+      recentSearches.addRecentSearchesWithSingleData = element;
+    });
+    return BuildVotingListTiles(data, model.navigateToVotingDetails);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final provider = Provider.of<CurrentVotingDataModelProvider>(context);
+    final data = provider.currentVotingDataModel
+        .where((element) => element.title!.startsWith(query.toUpperCase()))
+        .toList();
+    //TODO: Will implement nothing found here
+    if (data.isEmpty) return Container(child: Text("Nothing found"));
+    return BuildVotingListTiles(data, model.navigateToVotingDetails,
+        shouldHighlightSome: true,
+        query: query,
+        shouldUpdateRecentSearchesProvider: true);
   }
 }

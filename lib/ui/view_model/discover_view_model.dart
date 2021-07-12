@@ -6,7 +6,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
 import 'package:votex/models/voting_data_model.dart';
-import 'package:votex/providers/current_voting_model_provider.dart';
 import 'package:votex/services/firestore_services.dart';
 
 class DiscoverViewModel extends BaseViewModel {
