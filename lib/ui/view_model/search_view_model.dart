@@ -12,9 +12,7 @@ class SearchViewModel extends FutureViewModel {
 
   final _navigator = locator<NavigationService>();
   @override
-  Future<void> futureToRun() async {
-    // TODO: implement futureToRun
-  }
+  Future<void> futureToRun() async {}
 
   void onValueChanged(String val) {
     notifyListeners();

@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/providers/subscriptions_provider.dart';
+import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/subscription_view_model.dart';
+import 'package:votex/ui/widgets/animation_widgets.dart';
 import 'package:votex/ui/widgets/voting_list_tiles.dart';
 
 class SubscriptionsView extends StatelessWidget {
@@ -26,8 +28,15 @@ class SubscriptionsView extends StatelessWidget {
                 child: Consumer<SubscriptionsProvider>(builder: (_, value, __) {
                   if (value.getSubscriptions.isEmpty)
                     return Center(
-                      //TODO: Will have to implement a ui for no subscriptions
-                      child: Text("You have no Subscriptions"),
+                      child: Column(
+                        children: [
+                          LottieEmptyBox(),
+                          Text(
+                            "You have no Subscriptions",
+                            style: mediumHeaderText,
+                          ),
+                        ],
+                      ),
                     );
                   return BuildVotingListTiles(
                     value.getSubscriptions,

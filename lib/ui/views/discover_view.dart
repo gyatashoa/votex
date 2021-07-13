@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/providers/current_voting_data_models.dart';
+import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/discover_view_model.dart';
+import 'package:votex/ui/widgets/animation_widgets.dart';
 import 'package:votex/ui/widgets/custom_vote_cards.dart';
-import 'package:votex/ui/widgets/loading_shimmer_widget.dart';
 
 class DiscoverView extends StatelessWidget {
   @override
@@ -19,11 +20,25 @@ class DiscoverView extends StatelessWidget {
               builder: (_,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
-                  return LoadingShimmer();
-                //TODO: Will return an error widget here
-                if (snapshot.hasError) return Container();
-                //TODO: Will return empty number of voting cards here
-                if (snapshot.data!.docs.length == 0) return Container();
+                  return Center(child: LottieLoadingAnimation());
+                if (snapshot.hasError)
+                  return Column(
+                    children: [
+                      LottieErrorPage(),
+                    ],
+                  );
+
+                if (snapshot.data!.docs.length == 0)
+                  return Center(
+                      child: Column(
+                    children: [
+                      LottieEmptyBox(),
+                      Text(
+                        "No Data Available",
+                        style: mediumHeaderText,
+                      )
+                    ],
+                  ));
                 provider.currentVotingDataModel =
                     model.convert(snapshot.data!.docs);
                 return Container(

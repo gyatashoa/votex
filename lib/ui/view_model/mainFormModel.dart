@@ -14,9 +14,7 @@ class MainFormModel extends FormViewModel {
   // String get errorMsg7 => '';
 
   @override
-  void setFormStatus() {
-    // TODO: implement setFormStatus
-  }
+  void setFormStatus() {}
 
   void unfocus(BuildContext context) {
     FocusScope.of(context).unfocus();

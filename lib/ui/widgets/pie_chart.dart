@@ -24,7 +24,6 @@ class PieChartWidget extends StatelessWidget {
                     ? '0%'
                     : '${((e.value.votes!.length * 100) / numberOfVoters!).toInt()}%',
                 badgePositionPercentageOffset: 1.3,
-                //TODO: Will have to implement color tag here
                 color: colorTags[e.key],
                 showTitle: true,
                 value: e.value.votes!.length.toDouble()))

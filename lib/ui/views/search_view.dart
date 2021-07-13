@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
-import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/providers/current_voting_data_models.dart';
 import 'package:votex/providers/recent_voting_searches_provider.dart';
 import 'package:votex/theme/color_palete.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/search_view_model.dart';
+import 'package:votex/ui/widgets/animation_widgets.dart';
 import 'package:votex/ui/widgets/voting_list_tiles.dart';
 
 class SearchView extends StatelessWidget {
@@ -82,7 +81,15 @@ class SearchView extends StatelessWidget {
                       builder: (BuildContext context, value, Widget? child) {
                         if (value.recentSearches.isEmpty)
                           return Center(
-                            child: Text("No Recent Searches"),
+                            child: Column(
+                              children: [
+                                LottieEmptyBox(),
+                                Text(
+                                  "No Recent Searches",
+                                  style: mediumHeaderText,
+                                ),
+                              ],
+                            ),
                           );
                         return BuildVotingListTiles(value.recentSearches,
                             model.navigateToVotingDetails);
@@ -144,8 +151,7 @@ class _DataSearch extends SearchDelegate<String> {
     final data = provider.currentVotingDataModel
         .where((element) => element.title!.startsWith(query.toUpperCase()))
         .toList();
-    //TODO: Will implement nothing found here
-    if (data.isEmpty) return Container(child: Text("Nothing found"));
+    if (data.isEmpty) return Center(child: Container(child: LottieNoData()));
     return BuildVotingListTiles(data, model.navigateToVotingDetails,
         shouldHighlightSome: true,
         query: query,

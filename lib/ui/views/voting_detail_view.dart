@@ -9,6 +9,7 @@ import 'package:votex/providers/subscriptions_provider.dart';
 import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_detail_view_model.dart';
+import 'package:votex/ui/widgets/animation_widgets.dart';
 import 'package:votex/ui/widgets/pie_chart.dart';
 import 'package:votex/utils/color_tags.dart';
 
@@ -25,13 +26,17 @@ class VotingDetailView extends StatelessWidget {
               builder: (_,
                   AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
                       snapshot) {
-                //TODO Will implement loading indicator
                 if (snapshot.connectionState == ConnectionState.waiting)
-                  return CircularProgressIndicator();
-                //TODO will show an error
-                if (snapshot.hasError) return Container();
-                //TODO Unable to load data
-                if (!snapshot.hasData) return Container();
+                  return Scaffold(
+                      appBar: AppBar(),
+                      body: Center(child: LottieLoadingAnimation()));
+                if (snapshot.hasError)
+                  return Scaffold(
+                      appBar: AppBar(), body: Center(child: LottieErrorPage()));
+                if (!snapshot.hasData)
+                  return Scaffold(
+                      appBar: AppBar(),
+                      body: Center(child: LottieLoadingAnimation()));
                 return ResponsiveBuilder(builder: (_, info) {
                   if (info.isMobile)
                     return _MobileView(
