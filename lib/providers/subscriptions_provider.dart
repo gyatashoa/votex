@@ -18,5 +18,12 @@ class SubscriptionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  int getIdInNumbers(VotingDataModel model) {
+    for (int i = 0; i < this._subs.length; i++) {
+      if (model.id == this._subs[i].id) return i;
+    }
+    return -1;
+  }
+
   List<VotingDataModel> get getSubscriptions => this._subs;
 }

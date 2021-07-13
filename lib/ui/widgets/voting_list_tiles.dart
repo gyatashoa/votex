@@ -1,10 +1,14 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:votex/app/app.locator.dart';
 import 'package:votex/models/voting_data_model.dart';
 import 'package:votex/providers/recent_voting_searches_provider.dart';
 import 'package:votex/providers/subscriptions_provider.dart';
+import 'package:votex/services/notification_services.dart';
 import 'package:votex/theme/fonts.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 
 class BuildVotingListTiles extends StatelessWidget {
   final List<VotingDataModel> dataModel;
@@ -14,7 +18,7 @@ class BuildVotingListTiles extends StatelessWidget {
   final bool swipeable;
   final Function(VotingDataModel) onTileTap;
   final Function(VotingDataModel)? onDismiss;
-  const BuildVotingListTiles(this.dataModel, this.onTileTap,
+  BuildVotingListTiles(this.dataModel, this.onTileTap,
       {Key? key,
       this.query,
       this.shouldHighlightSome = false,
@@ -23,9 +27,14 @@ class BuildVotingListTiles extends StatelessWidget {
       this.shouldUpdateRecentSearchesProvider = false})
       : super(key: key);
 
+  final _notificationcationServices = locator<NotificationServices>();
+  final _snackBarService = locator<SnackbarService>();
+
   @override
   Widget build(BuildContext context) {
     final recentSearches = Provider.of<RecentVotingSearchesProvider>(context);
+    final subscriptionsProvider = Provider.of<SubscriptionsProvider>(context);
+
     return ListView.separated(
       itemBuilder: (_, i) {
         bool hasEnded = DateTime.now().isAfter(this.dataModel[i].endTime!);
@@ -45,8 +54,23 @@ class BuildVotingListTiles extends StatelessWidget {
                           )),
                     )),
                 key: Key(this.dataModel[i].id!),
-                onDismissed: (dir) {
+                onDismissed: (dir) async {
+                  var data = this.dataModel[i];
                   this.onDismiss!(this.dataModel[i]);
+                  await this
+                      ._notificationcationServices
+                      .unsubscribe(subscriptionsProvider.getIdInNumbers(data));
+                  _snackBarService.registerCustomSnackbarConfig(
+                      variant: "myvariant",
+                      config: SnackbarConfig(
+                          borderRadius: 10,
+                          margin: const EdgeInsets.all(10),
+                          snackStyle: SnackStyle.FLOATING,
+                          textColor: Colors.white));
+                  _snackBarService.showCustomSnackBar(
+                      variant: "myvariant",
+                      duration: Duration(seconds: 5),
+                      message: 'Removed from subscriptions');
                 },
                 confirmDismiss: (DismissDirection dir) async {
                   return true;

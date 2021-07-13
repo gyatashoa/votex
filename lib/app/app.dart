@@ -4,6 +4,7 @@ import 'package:votex/services/auth_services.dart';
 import 'package:votex/services/date_services.dart';
 import 'package:votex/services/firestore_services.dart';
 import 'package:votex/services/local_caching_services.dart';
+import 'package:votex/services/notification_services.dart';
 import 'package:votex/services/voting_services.dart';
 import 'package:votex/ui/views/complete_registration_view.dart';
 import 'package:votex/ui/views/home_view.dart';
@@ -44,6 +45,7 @@ import 'package:votex/ui/views/voting_view.dart';
   LazySingleton(classType: FirestoreServices),
   LazySingleton(classType: LocalCachingSevices),
   LazySingleton(classType: VotingServices),
-  LazySingleton(classType: SnackbarService)
+  LazySingleton(classType: SnackbarService),
+  LazySingleton(classType: NotificationServices)
 ])
 class AppSetup {}

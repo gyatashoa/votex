@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/services/auth_services.dart';
 import 'package:votex/ui/view_model/mainFormModel.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 
 class ResetPasswordViewModel extends BaseViewModel {
   final _authService = locator<AuthServices>();
@@ -23,13 +25,16 @@ class ResetPasswordViewModel extends BaseViewModel {
         _dialogService.showDialog(title: 'Error', description: res.message);
         return;
       }
-      _snackBarService.showSnackbar(
-          onMainButtonTapped: () {
-            goBack();
-          },
-          onTap: (val) {
-            goBack();
-          },
+
+      _snackBarService.registerCustomSnackbarConfig(
+          variant: "myvariant",
+          config: SnackbarConfig(
+              borderRadius: 10,
+              margin: const EdgeInsets.all(10),
+              snackStyle: SnackStyle.FLOATING,
+              textColor: Colors.white));
+      _snackBarService.showCustomSnackBar(
+          variant: "myvariant",
           duration: Duration(seconds: 8),
           title: 'Link Sent',
           message: 'A link was sent to you email');

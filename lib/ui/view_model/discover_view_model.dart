@@ -14,7 +14,7 @@ class DiscoverViewModel extends BaseViewModel {
 
   void navigateToDetail(VotingDataModel model) {
     this._navigator.navigateTo(Routes.votingDetailView,
-        arguments: VotingDetailViewArguments(dataModel: model));
+        arguments: VotingDetailViewArguments(id: model.id!));
   }
 
   final FirestoreServices _firestoreServices = locator<FirestoreServices>();

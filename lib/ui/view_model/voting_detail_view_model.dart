@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
 import 'package:votex/models/voting_data_model.dart';
+import 'package:votex/services/notification_services.dart';
 import 'package:votex/services/voting_services.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 
 class VotingDetailViewModel extends BaseViewModel {
   final _navigator = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
   final _votingServices = locator<VotingServices>();
+  final _notificationServices = locator<NotificationServices>();
+  final _snackBar = locator<SnackbarService>();
 
   void goBack() => _navigator.back();
 
@@ -47,5 +52,35 @@ class VotingDetailViewModel extends BaseViewModel {
     await _navigator.navigateTo(Routes.profileView,
         arguments:
             ProfileViewArguments(isContestant: true, contestant: contestant));
+  }
+
+  Future subscribe(VotingDataModel model, int id) async {
+    await _notificationServices.subscribe(model, id);
+    _snackBar.registerCustomSnackbarConfig(
+        variant: "myvariant",
+        config: SnackbarConfig(
+            borderRadius: 10,
+            margin: const EdgeInsets.all(10),
+            snackStyle: SnackStyle.FLOATING,
+            textColor: Colors.white));
+    _snackBar.showCustomSnackBar(
+        variant: "myvariant",
+        duration: Duration(seconds: 5),
+        message: "Added to subscriptions!");
+  }
+
+  Future unsubscribe(int id) async {
+    await _notificationServices.unsubscribe(id);
+    _snackBar.registerCustomSnackbarConfig(
+        variant: "myvariant",
+        config: SnackbarConfig(
+            borderRadius: 10,
+            margin: const EdgeInsets.all(10),
+            snackStyle: SnackStyle.FLOATING,
+            textColor: Colors.white));
+    _snackBar.showCustomSnackBar(
+        variant: "myvariant",
+        duration: Duration(seconds: 5),
+        message: "Removed from subscriptions!");
   }
 }

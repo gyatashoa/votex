@@ -14,15 +14,15 @@ import 'package:votex/ui/widgets/pie_chart.dart';
 import 'package:votex/utils/color_tags.dart';
 
 class VotingDetailView extends StatelessWidget {
-  final VotingDataModel dataModel;
-  const VotingDetailView(this.dataModel, {Key? key}) : super(key: key);
+  final String id;
+  const VotingDetailView(this.id, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<VotingDetailViewModel>.reactive(
         builder: (ctx, model, widget) {
           return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-              stream: model.getVotingDataModel(VotingDataModel, dataModel.id!),
+              stream: model.getVotingDataModel(VotingDataModel, this.id),
               builder: (_,
                   AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
                       snapshot) {
@@ -100,11 +100,14 @@ class _MobileView extends StatelessWidget {
               return IconButton(
                   onPressed: isSubcribed
                       //TODO: Will have to implement caching subcriptions
-                      ? () {
+                      ? () async {
                           value.removeSubscription(data);
+                          await model.unsubscribe(value.getIdInNumbers(data));
                         }
-                      : () {
+                      : () async {
                           value.subscriptions = data;
+                          await model.subscribe(
+                              data, value.getIdInNumbers(data));
                         },
                   icon: Icon(
                     isSubcribed

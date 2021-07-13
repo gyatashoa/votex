@@ -9,6 +9,6 @@ class SubscriptionViewModel extends BaseViewModel {
 
   void navigateToVotingDetailsView(VotingDataModel dataModel) {
     _naviagtor.navigateTo(Routes.votingDetailView,
-        arguments: VotingDetailViewArguments(dataModel: dataModel));
+        arguments: VotingDetailViewArguments(id: dataModel.id!));
   }
 }

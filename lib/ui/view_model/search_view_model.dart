@@ -26,7 +26,7 @@ class SearchViewModel extends FutureViewModel {
 
   void navigateToVotingDetails(VotingDataModel dataModel) async {
     await _navigator.navigateTo(Routes.votingDetailView,
-        arguments: VotingDetailViewArguments(dataModel: dataModel));
+        arguments: VotingDetailViewArguments(id: dataModel.id!));
   }
 
   void unfocus(BuildContext context) {

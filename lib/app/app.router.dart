@@ -113,7 +113,7 @@ class StackedRouter extends RouterBase {
       var args = data.getArgs<VotingDetailViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => VotingDetailView(
-          args.dataModel,
+          args.id,
           key: args.key,
         ),
         settings: data,
@@ -146,9 +146,9 @@ class ProfileViewArguments {
 
 /// VotingDetailView arguments holder class
 class VotingDetailViewArguments {
-  final VotingDataModel dataModel;
+  final String id;
   final Key? key;
-  VotingDetailViewArguments({required this.dataModel, this.key});
+  VotingDetailViewArguments({required this.id, this.key});
 }
 
 /// VotingView arguments holder class
