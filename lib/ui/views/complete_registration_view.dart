@@ -12,7 +12,6 @@ import 'package:votex/ui/widgets/auth_busy_btn.dart';
 import 'package:votex/ui/widgets/auth_header.dart';
 import 'package:votex/ui/widgets/custom_datefield.dart';
 import 'package:votex/ui/widgets/custom_icon.dart';
-import 'package:votex/utils/dateutils.dart';
 
 class CompleteRegistrationView extends StatelessWidget {
   @override
@@ -40,6 +39,7 @@ class CompleteRegistrationView extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _MobileView extends StatelessWidget {
   final CompleteRegistrationViewModel model;
   SizingInformation? info;

@@ -5,12 +5,9 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/ui/view_model/home_view_model.dart';
 import 'package:votex/ui/views/discover_view.dart';
-import 'package:votex/ui/views/profile_view.dart';
 import 'package:votex/ui/views/search_view.dart';
 import 'package:votex/ui/views/settings_view.dart';
 import 'package:votex/ui/views/subscription_view.dart';
-import 'package:votex/ui/widgets/custom_bottom_nav_bar.dart';
-import 'package:votex/ui/widgets/fade_widget.dart';
 
 class HomeView extends StatelessWidget {
   @override

@@ -6,7 +6,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
 import 'package:votex/models/voting_data_model.dart';
-import 'package:votex/services/firestore_services.dart';
 
 class DiscoverViewModel extends BaseViewModel {
   String get title => 'Discover';
@@ -16,8 +15,6 @@ class DiscoverViewModel extends BaseViewModel {
     this._navigator.navigateTo(Routes.votingDetailView,
         arguments: VotingDetailViewArguments(id: model.id!));
   }
-
-  final FirestoreServices _firestoreServices = locator<FirestoreServices>();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get stream =>
       getVotingDataModel(VotingDataModel);

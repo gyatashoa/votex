@@ -91,15 +91,37 @@ class _MobileView extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                   )
-                //TODO: Will have to implement for other colors
-                : SizedBox.shrink(),
+                : (hasNotStarted
+                    ? AvatarGlow(
+                        showTwoGlows: true,
+                        duration: Duration(milliseconds: 2000),
+                        repeat: true,
+                        repeatPauseDuration: Duration(milliseconds: 100),
+                        glowColor: Colors.yellow,
+                        endRadius: 25,
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Colors.yellow,
+                        ),
+                      )
+                    : AvatarGlow(
+                        showTwoGlows: true,
+                        duration: Duration(milliseconds: 2000),
+                        repeat: true,
+                        repeatPauseDuration: Duration(milliseconds: 100),
+                        glowColor: Colors.blue,
+                        endRadius: 25,
+                        child: CircleAvatar(
+                          radius: 5,
+                          backgroundColor: Colors.blue,
+                        ),
+                      )),
             Consumer<SubscriptionsProvider>(builder: (_, value, __) {
               bool isSubcribed = value.getSubscriptions
                   .where((element) => this.data.id == element.id)
                   .isNotEmpty;
               return IconButton(
                   onPressed: isSubcribed
-                      //TODO: Will have to implement caching subcriptions
                       ? () async {
                           value.removeSubscription(data);
                           await model.unsubscribe(value.getIdInNumbers(data));
@@ -158,7 +180,6 @@ class _MobileView extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
-                                          //TODO: Will write a case to cater for null imagePaths
                                           image: NetworkImage(
                                               e.value.imagePath!))),
                                 ),

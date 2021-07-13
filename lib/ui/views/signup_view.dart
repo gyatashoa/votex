@@ -31,6 +31,7 @@ class SignUpView extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _MobileView extends StatelessWidget {
   final SignUpViewModel model;
   SizingInformation? info;

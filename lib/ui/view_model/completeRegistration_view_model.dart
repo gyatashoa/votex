@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
@@ -54,7 +53,7 @@ class CompleteRegistrationViewModel extends MainFormModel {
           data['departmentId'], data['dob']);
       var result =
           await _firestoreServices.uploadData(cleanData.toJson(), UserDetails);
-      var result1 = await _authServices.UpdateName(data['name']);
+      await _authServices.updateName(data['name']);
 
       if (result != null) {
         await _dialogService.showDialog(

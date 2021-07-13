@@ -60,7 +60,7 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#237B29"
-  image: "assets/splash/icon_inverted.png"
+  image: "assets/splash/splash_inverted.png"
   android: true
   ios: true
 

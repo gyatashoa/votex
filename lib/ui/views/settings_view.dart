@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/ui/view_model/settings_view_model.dart';
 
+// ignore: must_be_immutable
 class SettingsView extends StatelessWidget {
   SettingsView({Key? key}) : super(key: key);
 

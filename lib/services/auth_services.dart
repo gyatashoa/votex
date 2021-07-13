@@ -11,6 +11,7 @@ class AuthServices {
     try {
       var res = await _instance.signInWithEmailAndPassword(
           email: email, password: password);
+      // ignore: unnecessary_null_comparison
       return res != null;
     } catch (e) {
       return e;
@@ -39,7 +40,7 @@ class AuthServices {
     }
   }
 
-  Future UpdateName(String name) async {
+  Future updateName(String name) async {
     try {
       await _instance.currentUser!.updateDisplayName(name);
       await _instance.currentUser!.reload();

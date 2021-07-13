@@ -43,6 +43,7 @@ class FirestoreServices {
       var snapshot =
           await collection.where("id", isEqualTo: auth.currentUser!.uid).get();
       var doc = snapshot.docs.first;
+      // ignore: unnecessary_null_comparison
       if (doc == null) {
         return null;
       }

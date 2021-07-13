@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:votex/models/voting_data_model.dart';
-import 'package:votex/models/voting_model.dart';
 import 'package:votex/theme/btn_styles.dart';
 import 'package:votex/theme/fonts.dart';
 import 'package:votex/ui/view_model/voting_view_model.dart';
@@ -87,7 +86,6 @@ class _MobileView extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
-                                                        //TODO: will have to cater for null imagePath
                                                         image: NetworkImage(
                                                             e.value.imagePath!),
                                                         fit: BoxFit.cover)),

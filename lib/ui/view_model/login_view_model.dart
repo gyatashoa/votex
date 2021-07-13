@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:votex/app/app.locator.dart';
 import 'package:votex/app/app.router.dart';
-import 'package:votex/models/UserDetails_model.dart';
 import 'package:votex/models/hiveUserDetails_model.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/services/auth_services.dart';

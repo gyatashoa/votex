@@ -22,7 +22,7 @@ class PieChartWidget extends StatelessWidget {
                 titleStyle: GoogleFonts.montserrat(fontSize: 13),
                 title: numberOfVoters == 0
                     ? '0%'
-                    : '${((e.value.votes!.length * 100) / numberOfVoters!).toInt()}%',
+                    : '${(e.value.votes!.length * 100) ~/ numberOfVoters!}%',
                 badgePositionPercentageOffset: 1.3,
                 color: colorTags[e.key],
                 showTitle: true,

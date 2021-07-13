@@ -81,43 +81,27 @@ class _MobileView extends StatelessWidget {
                   scrollController: model.scrollController,
                   appBarHeight: devSize.height * .35,
                   child: Center(
-                    child: this.isContestant
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(75),
-                            child: Container(
-                              height: 150,
-                              width: 150,
-                              child: Image.network(
-                                this.contestant!.imagePath!,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            height: 150,
-                            width: 150,
-                            child: Align(
-                              alignment: Alignment.bottomRight,
+                      child: this.isContestant
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(75),
                               child: Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(.16),
-                                      spreadRadius: 5,
-                                      blurRadius: 6,
-                                      offset: Offset(3, 3))
-                                ], shape: BoxShape.circle, color: Colors.white),
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.camera_alt_outlined)),
+                                height: 150,
+                                width: 150,
+                                child: Image.network(
+                                  this.contestant!.imagePath!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage('assets/images/user.jpg'),
-                                    fit: BoxFit.fitHeight)),
-                          ),
-                  ),
+                            )
+                          : CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 75,
+                              child: Icon(
+                                Icons.person,
+                                size: 45,
+                                color: Colors.black,
+                              ),
+                            )),
                 ),
                 expandedHeight: devSize.height * .35,
               ),
@@ -186,9 +170,7 @@ class _CustomTextFieldLabels extends StatelessWidget {
   final bool isEditable;
   final TextEditingController controller;
   const _CustomTextFieldLabels(this.controller,
-      {Key? key,
-      @required this.isEditable = false,
-      @required this.labelText = ''})
+      {Key? key, this.isEditable = false, this.labelText = ''})
       : super(key: key);
 
   @override
