@@ -31,6 +31,14 @@ class AuthServices {
     await _instance.signOut();
   }
 
+  Future resetPassword(String email) async {
+    try {
+      await _instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      return e;
+    }
+  }
+
   Future UpdateName(String name) async {
     try {
       await _instance.currentUser!.updateDisplayName(name);

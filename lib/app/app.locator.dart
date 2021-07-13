@@ -32,4 +32,5 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => FirestoreServices());
   locator.registerLazySingleton(() => LocalCachingSevices());
   locator.registerLazySingleton(() => VotingServices());
+  locator.registerLazySingleton(() => SnackbarService());
 }

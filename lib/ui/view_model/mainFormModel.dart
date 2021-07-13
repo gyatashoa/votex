@@ -26,7 +26,7 @@ class MainFormModel extends FormViewModel {
       {String? data, FieldType? type, String? password1, int? value}) {
     if (type == FieldType.EMAIL) {
       //validate for email
-      if (data == null || data.length < 6) {
+      if (data == null || (!data.contains('@')) || (!data.contains('.'))) {
         return errorMsg1;
       }
     }

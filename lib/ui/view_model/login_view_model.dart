@@ -32,7 +32,10 @@ class LoginViewModel extends MainFormModel {
   LocalCachingSevices _cachingSevices = locator<LocalCachingSevices>();
   FirestoreServices _firestoreServices = locator<FirestoreServices>();
 
-  void forgotPassword() {}
+  void forgotPassword() async {
+    await _navigationService.navigateTo(Routes.resetPasswordView);
+  }
+
   void signIn(UserDetailsProvider provider) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);

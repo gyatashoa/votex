@@ -56,3 +56,6 @@ TextStyle deepenText =
 
 TextStyle faintedText = GoogleFonts.montserrat(
     color: Colors.black.withOpacity(.5), fontWeight: FontWeight.w500);
+
+final TextStyle mediumHeaderText =
+    GoogleFonts.montserrat(fontSize: 20, fontWeight: FontWeight.w400);
