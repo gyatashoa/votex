@@ -11,7 +11,7 @@ class StartUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UserDetailsProvider>(context);
-    return ViewModelBuilder<StartUpViewModel>.nonReactive(
+    return ViewModelBuilder<StartUpViewModel>.reactive(
         onModelReady: (model) => SchedulerBinding.instance!
             .addPostFrameCallback((_) => model.init(model, provider)),
         builder: (context, model, widget) {

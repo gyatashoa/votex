@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:votex/theme/color_palete.dart';
 import 'package:votex/theme/fonts.dart';
@@ -6,10 +7,14 @@ import 'package:votex/utils/appsettings.dart';
 class CustomIcon1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
+    return Center(
+      child: AvatarGlow(
+        endRadius: 70,
+        glowColor: Colors.white,
+        repeat: true,
+        animate: true,
+        showTwoGlows: true,
+        child: Container(
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: lightScaffoldColor),
           child: Padding(
@@ -20,11 +25,7 @@ class CustomIcon1 extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          appTitle,
-          style: Theme.of(context).textTheme.headline2,
-        )
-      ],
+      ),
     );
   }
 }
