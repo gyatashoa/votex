@@ -53,24 +53,21 @@ class _MobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: PageTransitionSwitcher(
-            duration: Duration(milliseconds: 300),
-            transitionBuilder: (Widget child,
-                Animation<double> primaryAnimation,
-                Animation<double> secondaryAnimation) {
-              return FadeThroughTransition(
-                  child: child,
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation);
-            },
-            child: this._tabViews[this.model.currentIndex]),
-        bottomNavigationBar: FancyBottomNavigation(
-          initialSelection: this.model.currentIndex,
-          onTabChangedListener: this.model.setIndex,
-          tabs: _tabs,
-        ),
+    return Scaffold(
+      body: PageTransitionSwitcher(
+          duration: Duration(milliseconds: 300),
+          transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+              Animation<double> secondaryAnimation) {
+            return FadeThroughTransition(
+                child: child,
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation);
+          },
+          child: this._tabViews[this.model.currentIndex]),
+      bottomNavigationBar: FancyBottomNavigation(
+        initialSelection: this.model.currentIndex,
+        onTabChangedListener: this.model.setIndex,
+        tabs: _tabs,
       ),
     );
   }

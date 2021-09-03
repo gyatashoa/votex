@@ -56,8 +56,7 @@ class _MobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final devSize = MediaQuery.of(context).size;
-    return SafeArea(
-        child: PageTransitionSwitcher(
+    return PageTransitionSwitcher(
       duration: Duration(seconds: 1),
       transitionBuilder: (Widget child, Animation<double> primaryAnimation,
           Animation<double> secondaryAnimation) {
@@ -161,7 +160,7 @@ class _MobileView extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }
 

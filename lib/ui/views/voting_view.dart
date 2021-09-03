@@ -32,93 +32,92 @@ class _MobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                  onPressed: model.goBack,
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  )),
-              elevation: 4,
-              title: Text(
-                this.dataModel.title!,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-            ),
-            body: model.isBusy
-                ? Center(
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: model.goBack,
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              )),
+          elevation: 4,
+          title: Text(
+            this.dataModel.title!,
+            style: Theme.of(context).textTheme.headline3,
+          ),
+        ),
+        body: model.isBusy
+            ? Center(
+                child: Column(
+                  children: [
+                    LottieBallotBox(),
+                    Text(
+                      'Please Wait',
+                      style: mediumHeaderText,
+                    )
+                  ],
+                ),
+              )
+            : Container(
+                height: double.infinity,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        LottieBallotBox(),
-                        Text(
-                          'Please Wait',
-                          style: mediumHeaderText,
+                        Expanded(child: Container()),
+                        Card(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: this
+                                  .dataModel
+                                  .contestants!
+                                  .asMap()
+                                  .entries
+                                  .map((e) => RadioListTile<int>(
+                                      value: e.key,
+                                      title: Row(
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        e.value.imagePath!),
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(e.value.name!)
+                                        ],
+                                      ),
+                                      groupValue: model.state,
+                                      onChanged: (i) => model.change(i!)))
+                                  .toList()),
+                        ),
+                        Expanded(child: Container()),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Container(
+                            width: double.infinity,
+                            child: TextButton(
+                                style: btnGreen.style,
+                                onPressed: () =>
+                                    model.onSubmit(this.dataModel, context),
+                                child: Text(
+                                  model.submitText,
+                                  style: whiteBtnText,
+                                )),
+                          ),
                         )
                       ],
                     ),
-                  )
-                : Container(
-                    height: double.infinity,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(child: Container()),
-                            Card(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: this
-                                      .dataModel
-                                      .contestants!
-                                      .asMap()
-                                      .entries
-                                      .map((e) => RadioListTile<int>(
-                                          value: e.key,
-                                          title: Row(
-                                            children: [
-                                              Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            e.value.imagePath!),
-                                                        fit: BoxFit.cover)),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Text(e.value.name!)
-                                            ],
-                                          ),
-                                          groupValue: model.state,
-                                          onChanged: (i) => model.change(i!)))
-                                      .toList()),
-                            ),
-                            Expanded(child: Container()),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15.0),
-                              child: Container(
-                                width: double.infinity,
-                                child: TextButton(
-                                    style: btnGreen.style,
-                                    onPressed: () =>
-                                        model.onSubmit(this.dataModel, context),
-                                    child: Text(
-                                      model.submitText,
-                                      style: whiteBtnText,
-                                    )),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )));
+                  ),
+                ),
+              ));
   }
 }

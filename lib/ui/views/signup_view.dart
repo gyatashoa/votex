@@ -40,109 +40,106 @@ class _MobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size devSize = info!.screenSize;
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => model.unfocus(context),
-        child: Scaffold(
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: devSize.width * .11),
-            child: Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: Form(
-                  key: model.formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: devSize.height * 0.05,
-                            bottom: devSize.height * .02),
-                        child: Align(
-                            alignment: Alignment.center, child: CustomIcon2()),
+    return GestureDetector(
+      onTap: () => model.unfocus(context),
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: devSize.width * .11),
+          child: Container(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Form(
+                key: model.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: devSize.height * 0.05,
+                          bottom: devSize.height * .02),
+                      child: Align(
+                          alignment: Alignment.center, child: CustomIcon2()),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: devSize.height * .07),
+                      child: AuthHeader(model.headLine),
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      style: textFieldInputFont,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (text) => model.onFieldChange(
+                          data: text, type: FieldType.EMAIL),
+                      validator: (text) =>
+                          model.validator(data: text, type: FieldType.EMAIL),
+                      controller: model.emailController,
+                      decoration: InputDecoration(hintText: model.emailHintext),
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.02,
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.visiblePassword,
+                      style: textFieldInputFont,
+                      onChanged: (text) => model.onFieldChange(
+                          data: text, type: FieldType.PASSWORD1),
+                      validator: (text) => model.validator(
+                          data: text, type: FieldType.PASSWORD1),
+                      controller: model.password1Controller,
+                      obscureText: true,
+                      decoration:
+                          InputDecoration(hintText: model.passwordHintext),
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.02,
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (text) => model.signUp(),
+                      keyboardType: TextInputType.visiblePassword,
+                      style: textFieldInputFont,
+                      onChanged: (text) => model.onFieldChange(
+                          data: text, type: FieldType.PASSWORD2),
+                      validator: (text) => model.validator(
+                          data: text,
+                          type: FieldType.PASSWORD2,
+                          password1: model.password1Controller.text),
+                      controller: model.password2Controller,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: model.confirmPasswordHintext),
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.05,
+                    ),
+                    AuthBusyBtn(
+                      model.signText,
+                      onPressed: model.signUp,
+                      isBusy: model.isBusy,
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.05,
+                    ),
+                    Align(
+                      child: Text(
+                        model.alreadyHaveAnAcc,
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: devSize.height * .07),
-                        child: AuthHeader(model.headLine),
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        style: textFieldInputFont,
-                        keyboardType: TextInputType.emailAddress,
-                        onChanged: (text) => model.onFieldChange(
-                            data: text, type: FieldType.EMAIL),
-                        validator: (text) =>
-                            model.validator(data: text, type: FieldType.EMAIL),
-                        controller: model.emailController,
-                        decoration:
-                            InputDecoration(hintText: model.emailHintext),
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.02,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.visiblePassword,
-                        style: textFieldInputFont,
-                        onChanged: (text) => model.onFieldChange(
-                            data: text, type: FieldType.PASSWORD1),
-                        validator: (text) => model.validator(
-                            data: text, type: FieldType.PASSWORD1),
-                        controller: model.password1Controller,
-                        obscureText: true,
-                        decoration:
-                            InputDecoration(hintText: model.passwordHintext),
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.02,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.done,
-                        onFieldSubmitted: (text) => model.signUp(),
-                        keyboardType: TextInputType.visiblePassword,
-                        style: textFieldInputFont,
-                        onChanged: (text) => model.onFieldChange(
-                            data: text, type: FieldType.PASSWORD2),
-                        validator: (text) => model.validator(
-                            data: text,
-                            type: FieldType.PASSWORD2,
-                            password1: model.password1Controller.text),
-                        controller: model.password2Controller,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            hintText: model.confirmPasswordHintext),
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.05,
-                      ),
-                      AuthBusyBtn(
-                        model.signText,
-                        onPressed: model.signUp,
-                        isBusy: model.isBusy,
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.05,
-                      ),
-                      Align(
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.01,
+                    ),
+                    Align(
+                      child: InkWell(
+                        onTap: model.navigateToSignIn,
                         child: Text(
-                          model.alreadyHaveAnAcc,
-                          style: Theme.of(context).textTheme.subtitle2,
+                          model.registerText,
+                          style: primaryGreenText1,
                         ),
                       ),
-                      SizedBox(
-                        height: devSize.height * 0.01,
-                      ),
-                      Align(
-                        child: InkWell(
-                          onTap: model.navigateToSignIn,
-                          child: Text(
-                            model.registerText,
-                            style: primaryGreenText1,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             ),

@@ -43,107 +43,104 @@ class _MobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size devSize = info!.screenSize;
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => model.unfocus(context),
-        child: Scaffold(
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: devSize.width * .11),
-            child: Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: Form(
-                  key: model.formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: devSize.height * 0.05,
-                            bottom: devSize.height * .02),
-                        child: Align(
-                            alignment: Alignment.center, child: CustomIcon2()),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: devSize.height * .09),
-                        child: AuthHeader(model.headLine),
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
+    return GestureDetector(
+      onTap: () => model.unfocus(context),
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: devSize.width * .11),
+          child: Container(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Form(
+                key: model.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: devSize.height * 0.05,
+                          bottom: devSize.height * .02),
+                      child: Align(
+                          alignment: Alignment.center, child: CustomIcon2()),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: devSize.height * .09),
+                      child: AuthHeader(model.headLine),
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      style: textFieldInputFont,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (text) => model.onFieldChange(
+                          data: text, type: FieldType.EMAIL),
+                      controller: model.emailController,
+                      validator: (text) =>
+                          model.validator(type: FieldType.EMAIL, data: text),
+                      decoration: InputDecoration(hintText: model.emailHintext),
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.02,
+                    ),
+                    Consumer<UserDetailsProvider>(builder: (_, provider, __) {
+                      return TextFormField(
+                        onFieldSubmitted: (text) => model.signIn(provider),
+                        textInputAction: TextInputAction.done,
                         style: textFieldInputFont,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.visiblePassword,
                         onChanged: (text) => model.onFieldChange(
-                            data: text, type: FieldType.EMAIL),
-                        controller: model.emailController,
-                        validator: (text) =>
-                            model.validator(type: FieldType.EMAIL, data: text),
+                            data: text, type: FieldType.PASSWORD1),
+                        controller: model.password1Controller,
+                        validator: (text) => model.validator(
+                            type: FieldType.PASSWORD1, data: text),
+                        obscureText: true,
                         decoration:
-                            InputDecoration(hintText: model.emailHintext),
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.02,
-                      ),
-                      Consumer<UserDetailsProvider>(builder: (_, provider, __) {
-                        return TextFormField(
-                          onFieldSubmitted: (text) => model.signIn(provider),
-                          textInputAction: TextInputAction.done,
-                          style: textFieldInputFont,
-                          keyboardType: TextInputType.visiblePassword,
-                          onChanged: (text) => model.onFieldChange(
-                              data: text, type: FieldType.PASSWORD1),
-                          controller: model.password1Controller,
-                          validator: (text) => model.validator(
-                              type: FieldType.PASSWORD1, data: text),
-                          obscureText: true,
-                          decoration:
-                              InputDecoration(hintText: model.passwordHintext),
-                        );
-                      }),
-                      SizedBox(
-                        height: devSize.height * 0.02,
-                      ),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: model.forgotPassword,
-                            child: Text(
-                              model.forgotPasswordTxt,
-                              style: primaryGreenText1,
-                            ),
-                          )),
-                      SizedBox(
-                        height: devSize.height * 0.1,
-                      ),
-                      Consumer<UserDetailsProvider>(builder: (_, provider, __) {
-                        return AuthBusyBtn(
-                          model.signText,
-                          onPressed: () => model.signIn(provider),
-                          isBusy: model.isBusy,
-                        );
-                      }),
-                      SizedBox(
-                        height: devSize.height * 0.06,
-                      ),
-                      Align(
-                        child: Text(
-                          model.needAccTxt,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ),
-                      SizedBox(
-                        height: devSize.height * 0.01,
-                      ),
-                      Align(
+                            InputDecoration(hintText: model.passwordHintext),
+                      );
+                    }),
+                    SizedBox(
+                      height: devSize.height * 0.02,
+                    ),
+                    Align(
+                        alignment: Alignment.centerRight,
                         child: InkWell(
-                          onTap: model.navigateToCreateAccount,
+                          onTap: model.forgotPassword,
                           child: Text(
-                            model.registerText,
+                            model.forgotPasswordTxt,
                             style: primaryGreenText1,
                           ),
+                        )),
+                    SizedBox(
+                      height: devSize.height * 0.1,
+                    ),
+                    Consumer<UserDetailsProvider>(builder: (_, provider, __) {
+                      return AuthBusyBtn(
+                        model.signText,
+                        onPressed: () => model.signIn(provider),
+                        isBusy: model.isBusy,
+                      );
+                    }),
+                    SizedBox(
+                      height: devSize.height * 0.06,
+                    ),
+                    Align(
+                      child: Text(
+                        model.needAccTxt,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ),
+                    SizedBox(
+                      height: devSize.height * 0.01,
+                    ),
+                    Align(
+                      child: InkWell(
+                        onTap: model.navigateToCreateAccount,
+                        child: Text(
+                          model.registerText,
+                          style: primaryGreenText1,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
