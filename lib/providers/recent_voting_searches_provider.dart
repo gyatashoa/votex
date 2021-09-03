@@ -16,5 +16,10 @@ class RecentVotingSearchesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void emptyRecent() {
+    this._recent = [];
+    notifyListeners();
+  }
+
   List<VotingDataModel> get recentSearches => this._recent;
 }

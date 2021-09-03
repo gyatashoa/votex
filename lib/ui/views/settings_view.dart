@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+import 'package:votex/providers/recent_voting_searches_provider.dart';
+import 'package:votex/providers/subscriptions_provider.dart';
 import 'package:votex/providers/user_details_provider.dart';
 import 'package:votex/ui/view_model/settings_view_model.dart';
 
@@ -20,11 +22,6 @@ class SettingsView extends StatelessWidget {
       'navigateTo': PageToNavigateTo.ABOUT_APP
     },
     {
-      'title': 'Terms And Conditions',
-      'icon': Icons.insert_drive_file_outlined,
-      'navigateTo': PageToNavigateTo.TERMS
-    },
-    {
       'title': 'Sign Out',
       'icon': Icons.logout,
       'navigateTo': PageToNavigateTo.SIGN_OUT
@@ -33,6 +30,8 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final recentProvider = Provider.of<RecentVotingSearchesProvider>(context);
+    final subsProvider = Provider.of<SubscriptionsProvider>(context);
     final devSize = MediaQuery.of(context).size;
     return ViewModelBuilder<SettingsViewModel>.nonReactive(
         builder: (ctx, model, widget) {
@@ -46,7 +45,11 @@ class SettingsView extends StatelessWidget {
                         return ListTile(
                           enableFeedback: true,
                           onTap: () => model.onTileTapped(
-                              this._tiles[i]['navigateTo'], provider),
+                              context,
+                              this._tiles[i]['navigateTo'],
+                              provider,
+                              recentProvider,
+                              subsProvider),
                           title: Text(this._tiles[i]['title']),
                           trailing: Icon(this._tiles[i]['icon']),
                         );

@@ -102,10 +102,10 @@ class CompleteRegistrationViewModel extends MainFormModel {
 
   void onDropChanged({String? data, FieldType? type}) {
     if (type == FieldType.COLLEGE) {
-      this.data = {...this.data, 'collegeId': data};
+      this.data = {...this.data, 'collegeId': data, 'departmentId': null};
+      departments = [];
       _deps.forEach((element) {
         if (element.collegeId == data) {
-          departments = [];
           departments.add(DropdownMenuItem<String>(
             child: Text(element.name),
             value: element.id,
